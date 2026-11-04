@@ -1,0 +1,494 @@
+1. ما هي الشبكة الحاسوبية؟ / What is a computer network?
+B) برنامج لتحرير الصور / An image editing program
+C) نظام تشغيل / An operating system
+D) جهاز تخزين / A storage device
++A) مجموعة أجهزة متصلة / A group of connected devices
+
+2. ما وظيفة كابل Ethernet؟ / What is the function of an Ethernet cable?
+A) شحن الهاتف / Charging a phone
++B) نقل البيانات عبر الشبكة / Transmitting data over a network
+C) تشغيل الشاشة / Turning on a display
+D) طباعة المستندات / Printing documents
+
+3. ماذا تعني LAN؟ / What does LAN mean?
+A) شبكة عالمية / Global network
++B) شبكة محلية / Local Area Network
+C) شبكة لاسلكية بعيدة / Long-distance wireless network
+D) نظام حماية / Security system
+
+4. ما الجهاز المستخدم لربط عدة أجهزة داخل شبكة محلية؟ / Which device connects multiple devices in a local network?
+A) Printer / طابعة
++B) Switch / مبدّل
+C) Scanner / ماسح ضوئي
+D) Monitor / شاشة
+
+5. ما وظيفة الراوتر؟ / What is the function of a router?
+A) حذف الملفات / Deleting files
++B) توجيه البيانات بين الشبكات / Routing data between networks
+C) تحرير النصوص / Editing text
+D) تشغيل الألعاب / Running games
+
+6. ماذا تعني Wi-Fi؟ / What does Wi-Fi provide?
+A) اتصال سلكي فقط / Wired connection only
++B) اتصال لاسلكي بالشبكة / Wireless network connectivity
+C) تخزين البيانات / Data storage
+D) حماية الشاشة / Screen protection
+
+7. ما هو عنوان IP؟ / What is an IP address?
+A) اسم المستخدم / Username
++B) عنوان يعرّف الجهاز على الشبكة / An address identifying a device on a network
+C) كلمة المرور / Password
+D) اسم البرنامج / Program name
+
+8. ما وظيفة DNS؟ / What is the function of DNS?
+A) تشفير الملفات / Encrypting files
++B) تحويل أسماء النطاقات إلى عناوين IP / Translating domain names into IP addresses
+C) توزيع الكهرباء / Distributing electricity
+D) ضغط الصور / Compressing images
+
+9. ماذا يعني DHCP؟ / What does DHCP do?
+A) حذف عناوين IP / Deleting IP addresses
++B) توزيع إعدادات الشبكة تلقائياً / Automatically assigning network settings
+C) تشفير البريد / Encrypting email
+D) مراقبة الشاشة / Monitoring the display
+
+10. أي عنوان يمثل عنوان IPv4 صحيحاً؟ / Which is a valid IPv4 address?
+A) 192.168.1.300
++B) 192.168.1.10
+C) 192.168.1
+D) 300.300.300.300
+
+11. ما وظيفة المودم؟ / What is the function of a modem?
+A) طباعة الملفات / Printing files
++B) ربط الشبكة بخدمة الاتصال لدى مزود الإنترنت / Connecting a network to an ISP service
+C) تحرير الفيديو / Editing video
+D) حذف الفيروسات / Removing viruses
+
+12. ماذا تعني WAN؟ / What does WAN mean?
+A) شبكة شخصية / Personal Area Network
++B) شبكة واسعة / Wide Area Network
+C) شبكة محلية / Local Area Network
+D) شبكة منزلية فقط / Home network only
+
+13. ما المقصود بالخادم Server؟ / What is a server?
+A) جهاز يعرض الصور فقط / A device that only displays images
++B) نظام يقدم خدمات أو موارد لأجهزة أخرى / A system providing services or resources to other devices
+C) كابل شبكة / Network cable
+D) جهاز إدخال / Input device
+
+14. ما وظيفة العميل Client في الشبكة؟ / What is the role of a client in a network?
+A) تقديم الخدمة دائماً / Always providing the service
++B) طلب خدمة أو مورد من خادم / Requesting a service or resource from a server
+C) توزيع الكهرباء / Distributing electricity
+D) توجيه الكابلات / Routing cables
+
+15. ما المنفذ الافتراضي لبروتوكول HTTP؟ / What is the default port for HTTP?
+A) 21
++B) 80
+C) 25
+D) 110
+
+16. ما المنفذ الافتراضي لبروتوكول HTTPS؟ / What is the default port for HTTPS?
+A) 53
+B) 22
++C) 443
+D) 23
+
+17. ما وظيفة Firewall؟ / What is the function of a firewall?
+A) زيادة حجم الملفات / Increasing file size
++B) مراقبة وتصفية حركة مرور الشبكة / Monitoring and filtering network traffic
+C) إصلاح الشاشة / Repairing the display
+D) تشغيل الطابعة / Running the printer
+
+18. ماذا يعني VPN؟ / What does VPN mean?
+A) شبكة طباعة / Printing network
++B) شبكة خاصة افتراضية / Virtual Private Network
+C) برنامج رسم / Drawing software
+D) قرص تخزين / Storage disk
+19. ما وظيفة بروتوكول TCP؟ / What is the function of TCP?
+A) نقل البيانات دون أي تحقق / Sending data without verification
++B) توفير نقل موثوق للبيانات / Providing reliable data transmission
+C) ترجمة أسماء النطاقات / Translating domain names
+D) توزيع عناوين IP / Assigning IP addresses
+
+20. ما فائدة النسخ الاحتياطي؟ / What is the benefit of a backup?
+A) إبطاء الشبكة / Slowing down the network
++B) استعادة البيانات عند فقدانها / Restoring data after loss
+C) حذف النظام / Deleting the system
+D) تعطيل الإنترنت / Disabling the internet
+
+21. ما هو عنوان IP الخاص؟ / What is a private IP address?
+A) عنوان يستخدم حصرياً على الإنترنت / An internet-only address
++B) عنوان يستخدم داخل الشبكات الخاصة / An address used inside private networks
+C) عنوان موقع إلكتروني / A website address
+D) عنوان بريد إلكتروني / An email address
+
+22. أي عنوان من التالي ينتمي إلى النطاق الخاص IPv4؟ / Which address belongs to a private IPv4 range?
++A) 192.168.1.5
+B) 8.8.8.8
+C) 1.1.1.1
+D) 9.9.9.9
+
+23. ما هو عنوان Loopback الافتراضي في IPv4؟ / What is the default IPv4 loopback address?
+A) 192.168.1.1
++B) 127.0.0.1
+C) 8.8.8.8
+D) 10.0.0.1
+
+24. ما وظيفة Subnet Mask؟ / What is the function of a subnet mask?
+A) تشفير البيانات / Encrypting data
++B) تحديد جزء الشبكة وجزء الجهاز من عنوان IP / Identifying the network and host portions of an IP address
+C) توزيع كلمات المرور / Assigning passwords
+D) تحويل أسماء المواقع / Translating website names
+
+25. ماذا يعني عنوان IP الثابت Static IP؟ / What does a static IP address mean?
+A) عنوان يتغير كل دقيقة / An address changing every minute
++B) عنوان يتم ضبطه يدوياً ويبقى ثابتاً عادةً / An address manually configured and usually kept unchanged
+C) عنوان غير صالح / An invalid address
+D) عنوان خاص بالطابعات فقط / An address only for printers
+
+26. ماذا يعني Dynamic IP؟ / What does a dynamic IP address mean?
+A) عنوان لا يتغير أبداً / An address that never changes
++B) عنوان يتم تعيينه تلقائياً وقد يتغير / An automatically assigned address that may change
+C) عنوان بلا أرقام / An address without numbers
+D) عنوان خاص بالخوادم فقط / An address only for servers
+
+27. ما المنفذ الافتراضي لبروتوكول DNS؟ / What is the default DNS port?
+A) 80
+B) 443
++C) 53
+D) 22
+
+28. ما المنفذ الذي يستخدمه DHCP عادةً على الخادم؟ / Which port does DHCP typically use on the server?
+A) 80
++B) 67
+C) 443
+D) 25
+
+29. ما المنفذ الذي يستخدمه DHCP عادةً على العميل؟ / Which port does DHCP typically use on the client?
+A) 21
+B) 53
++C) 68
+D) 110
+
+30. ما وظيفة Default Gateway؟ / What is the function of a default gateway?
+A) تخزين الملفات / Storing files
++B) تمرير البيانات إلى شبكات أخرى / Forwarding traffic to other networks
+C) تشغيل نظام التشغيل / Starting the operating system
+D) إنشاء كلمات المرور / Creating passwords
+
+31. ماذا يحدث غالباً عند تعارض عناوين IP؟ / What commonly happens during an IP address conflict?
+A) تتحسن سرعة الشبكة / Network speed improves
++B) قد تحدث مشاكل في الاتصال / Connectivity problems may occur
+C) يتوقف DNS نهائياً / DNS permanently stops
+D) تتضاعف سرعة الإنترنت / Internet speed doubles
+
+32. ما وظيفة الأمر ping؟ / What is the function of the ping command?
+A) حذف الملفات / Deleting files
++B) اختبار إمكانية الوصول إلى جهاز عبر الشبكة / Testing network reachability to a device
+C) تغيير كلمة المرور / Changing a password
+D) تثبيت البرامج / Installing software
+
+33. ماذا يعرض الأمر ipconfig في Windows؟ / What does ipconfig display in Windows?
+A) قائمة البرامج / A list of programs
++B) إعدادات الشبكة وعناوين IP / Network settings and IP addresses
+C) الملفات المحذوفة / Deleted files
+D) كلمات المرور / Passwords
+
+34. ما الأمر الشائع لعرض عناوين الشبكة في Linux؟ / Which command commonly displays network addresses in Linux?
+A) mkdir
++B) ip addr
+C) rm
+D) passwd
+
+35. ما وظيفة الأمر nslookup؟ / What is the function of nslookup?
+A) فحص القرص الصلب / Checking the hard drive
++B) الاستعلام عن سجلات DNS / Querying DNS records
+C) تغيير عنوان MAC / Changing the MAC address
+D) إيقاف الخادم / Stopping the server
+
+36. ماذا يمثل عنوان MAC؟ / What does a MAC address represent?
+A) عنوان موقع إلكتروني / A website address
++B) عنوان واجهة الشبكة على مستوى طبقة ربط البيانات / A network interface address at the data-link layer
+C) كلمة مرور الراوتر / Router password
+D) عنوان DNS / DNS address
+
+37. ما المقصود بـ IPv6؟ / What is IPv6?
+A) إصدار قديم من Ethernet / An old version of Ethernet
++B) إصدار من بروتوكول الإنترنت يستخدم عناوين بطول 128 بت / An Internet Protocol version using 128-bit addresses
+C) نوع من كلمات المرور / A type of password
+D) بروتوكول للطباعة / A printing protocol
+38. كم عدد البتات في عنوان IPv4؟ / How many bits are in an IPv4 address?
+A) 16
++B) 32
+C) 64
+D) 128
+
+39. كم عدد البتات في عنوان IPv6؟ / How many bits are in an IPv6 address?
+A) 32
+B) 64
+C) 96
++D) 128
+
+40. ماذا تعني DHCP Lease؟ / What does a DHCP lease mean?
+A) حذف عنوان IP / Deleting an IP address
++B) مدة صلاحية تخصيص عنوان IP للعميل / The period an IP address is assigned to a client
+C) تشفير الاتصال / Encrypting a connection
+D) تغيير اسم الجهاز / Changing the device name
+EOF]
+38. كم عدد البتات في عنوان IPv4؟ / How many bits are in an IPv4 address?
+A) 16
++B) 32
+C) 64
+D) 128
+
+39. كم عدد البتات في عنوان IPv6؟ / How many bits are in an IPv6 address?
+A) 32
+B) 64
+C) 96
++D) 128
+
+40. ماذا تعني DHCP Lease؟ / What does a DHCP lease mean?
+A) حذف عنوان IP / Deleting an IP address
++B) مدة صلاحية تخصيص عنوان IP للعميل / The period an IP address is assigned to a client
+C) تشفير الاتصال / Encrypting a connection
+D) تغيير اسم الجهاز / Changing the device name
+
+41. ما الفرق الأساسي بين Router وSwitch؟ / What is the main difference between a router and a switch?
+A) كلاهما يطبع المستندات / Both print documents
++B) Router يربط الشبكات وSwitch يربط الأجهزة داخل الشبكة المحلية / A router connects networks and a switch connects devices within a LAN
+C) Switch يوزع عناوين DNS فقط / A switch only assigns DNS addresses
+D) Router يخزن الملفات فقط / A router only stores files
+
+42. في أي طبقة من نموذج OSI يعمل Switch التقليدي؟ / At which OSI layer does a traditional switch operate?
+A) الطبقة الأولى / Layer 1
++B) الطبقة الثانية / Layer 2
+C) الطبقة الرابعة / Layer 4
+D) الطبقة السابعة / Layer 7
+
+43. في أي طبقة يعمل Router عند توجيه حزم IP؟ / At which layer does a router operate when routing IP packets?
+A) الطبقة الأولى / Layer 1
+B) الطبقة الثانية / Layer 2
++C) الطبقة الثالثة / Layer 3
+D) الطبقة السادسة / Layer 6
+
+44. ما وظيفة جدول MAC Address Table في Switch؟ / What is the function of a switch MAC address table?
+A) تخزين كلمات المرور / Storing passwords
++B) ربط عناوين MAC بالمنافذ المناسبة / Mapping MAC addresses to the appropriate ports
+C) تخزين أسماء النطاقات / Storing domain names
+D) توزيع عناوين IP / Assigning IP addresses
+
+45. ما المقصود بـ VLAN؟ / What is a VLAN?
+A) شبكة إنترنت عالمية / A global internet network
++B) تقسيم منطقي للشبكة المحلية إلى شبكات منفصلة / A logical division of a LAN into separate networks
+C) نوع من كابلات الألياف / A type of fiber cable
+D) بروتوكول لتشفير البريد / An email encryption protocol
+
+46. ما فائدة Trunk Port في الشبكات؟ / What is the purpose of a trunk port?
+A) نقل VLAN واحدة فقط دائماً / Always carrying only one VLAN
++B) نقل حركة مرور عدة VLANs عبر وصلة واحدة / Carrying traffic from multiple VLANs over one link
+C) تعطيل جميع المنافذ / Disabling all ports
+D) توزيع كلمات المرور / Distributing passwords
+
+47. ما وظيفة بروتوكول STP؟ / What is the function of STP?
+A) توزيع عناوين IP / Assigning IP addresses
++B) منع حلقات التبديل في الشبكة / Preventing switching loops in a network
+C) تشفير ملفات المستخدمين / Encrypting user files
+D) تحويل أسماء المواقع / Translating domain names
+
+48. ما المقصود بـ Routing Table؟ / What is a routing table?
+A) جدول المستخدمين / A user table
++B) جدول يحتوي على مسارات الوصول إلى الشبكات / A table containing routes to networks
+C) جدول كلمات المرور / A password table
+D) جدول الطابعات / A printer table
+
+49. ما وظيفة بروتوكول OSPF؟ / What is the function of OSPF?
+A) إرسال البريد الإلكتروني / Sending email
++B) تبادل معلومات التوجيه داخل الشبكات / Exchanging routing information within networks
+C) توزيع عناوين MAC / Assigning MAC addresses
+D) نقل الملفات عبر USB / Transferring files over USB
+
+50. ما وظيفة بروتوكول BGP؟ / What is the function of BGP?
+A) إدارة الطابعات / Managing printers
++B) تبادل معلومات التوجيه بين الأنظمة المستقلة / Exchanging routing information between autonomous systems
+C) تشفير كلمات المرور / Encrypting passwords
+D) اختبار الكابلات / Testing cables
+
+51. ما الفرق بين TCP وUDP؟ / What is the difference between TCP and UDP?
+A) كلاهما لا ينقل البيانات / Neither transfers data
++B) TCP يوفر نقلاً موثوقاً بينما UDP لا يضمن التسليم / TCP provides reliable delivery while UDP does not guarantee delivery
+C) UDP يستخدم للصور فقط / UDP is only used for images
+D) TCP يعمل دون منافذ / TCP works without ports
+
+52. ما وظيفة TCP Three-Way Handshake؟ / What is the function of the TCP three-way handshake?
+A) تشفير القرص / Encrypting a disk
++B) إنشاء اتصال TCP بين طرفين / Establishing a TCP connection between two endpoints
+C) حذف عنوان IP / Deleting an IP address
+D) إيقاف DNS / Stopping DNS
+
+53. ما ترتيب رسائل TCP Three-Way Handshake؟ / What is the order of TCP three-way handshake messages?
+A) ACK ثم FIN ثم SYN / ACK then FIN then SYN
++B) SYN ثم SYN-ACK ثم ACK / SYN then SYN-ACK then ACK
+C) FIN ثم ACK ثم RST / FIN then ACK then RST
+D) DATA ثم FIN ثم SYN / DATA then FIN then SYN
+54. ما وظيفة بروتوكول ARP في IPv4؟ / What is the function of ARP in IPv4?
+A) تحويل أسماء النطاقات إلى IP / Translating domain names to IP
++B) معرفة عنوان MAC المقابل لعنوان IPv4 داخل الشبكة المحلية / Discovering the MAC address associated with an IPv4 address on a local network
+C) تشفير حركة مرور الويب / Encrypting web traffic
+D) توزيع عناوين IPv6 / Assigning IPv6 addresses
+
+55. ما وظيفة ICMP؟ / What is the function of ICMP?
+A) نقل صفحات الويب / Transferring web pages
++B) إرسال رسائل التحكم والأخطاء في الشبكة / Sending network control and error messages
+C) تخزين الملفات / Storing files
+D) إدارة قواعد البيانات / Managing databases
+
+56. ماذا يعني MTU في الشبكات؟ / What does MTU mean in networking?
+A) الحد الأقصى لعدد المستخدمين / Maximum number of users
++B) أكبر حجم لوحدة البيانات التي يمكن نقلها عبر وصلة / Maximum size of a data unit that can be transmitted over a link
+C) سرعة المعالج / Processor speed
+D) عدد عناوين DNS / Number of DNS addresses
+
+57. ما المقصود بـ NAT؟ / What is NAT?
+A) بروتوكول لتشغيل الطابعات / A printer protocol
++B) ترجمة عناوين الشبكة / Network Address Translation
+C) نظام لإدارة الملفات / A file management system
+D) طريقة لتشفير الأقراص / A disk encryption method
+
+58. ما فائدة Port Forwarding في الراوتر؟ / What is the purpose of port forwarding on a router?
+A) تغيير عنوان MAC لجميع الأجهزة / Changing every device's MAC address
++B) توجيه الاتصالات الواردة على منفذ إلى جهاز أو خدمة داخلية / Forwarding incoming connections on a port to an internal device or service
+C) حذف إعدادات DNS / Deleting DNS settings
+D) زيادة سعة القرص / Increasing disk capacity
+
+59. ما وظيفة QoS في الشبكات؟ / What is the function of QoS in networking?
+A) حذف الحزم دائماً / Always deleting packets
++B) تحديد أولويات حركة مرور الشبكة / Prioritizing network traffic
+C) تغيير كلمات المرور / Changing passwords
+D) توزيع عناوين MAC / Assigning MAC addresses
+
+60. ما المقصود بـ Full-Duplex؟ / What does full-duplex mean?
+A) إرسال البيانات فقط / Sending data only
+B) استقبال البيانات فقط / Receiving data only
++C) إرسال واستقبال البيانات في الوقت نفسه / Sending and receiving data simultaneously
+D) منع الاتصال بالشبكة / Blocking network communication
+
+61. ما وظيفة الأمر pwd في Linux؟ / What is the function of pwd in Linux?
++A) عرض المسار الحالي / Displaying the current directory path
+B) حذف الملفات / Deleting files
+C) إنشاء مستخدم / Creating a user
+D) إيقاف النظام / Shutting down the system
+
+62. ما وظيفة الأمر ls في Linux؟ / What is the function of ls in Linux?
+A) تغيير كلمة المرور / Changing the password
++B) عرض محتويات المجلد / Listing directory contents
+C) إعادة تشغيل النظام / Restarting the system
+D) فحص الشبكة / Checking the network
+
+63. ما وظيفة الأمر chmod؟ / What is the function of chmod?
+A) تغيير اسم الجهاز / Changing the hostname
++B) تغيير صلاحيات الملفات والمجلدات / Changing file and directory permissions
+C) عرض عنوان IP / Displaying the IP address
+D) تثبيت نظام التشغيل / Installing the operating system
+
+64. ما وظيفة الأمر chown في Linux؟ / What is the function of chown in Linux?
+A) حذف المستخدمين / Deleting users
++B) تغيير مالك الملف أو المجلد / Changing file or directory ownership
+C) تغيير عنوان IP / Changing the IP address
+D) عرض العمليات / Displaying processes
+
+65. ما وظيفة الأمر systemctl؟ / What is the function of systemctl?
+A) تحرير الصور / Editing images
++B) إدارة خدمات النظام / Managing system services
+C) ضغط الملفات فقط / Only compressing files
+D) عرض كلمات المرور / Displaying passwords
+
+66. ما الأمر المستخدم لعرض العمليات في Linux؟ / Which command displays processes in Linux?
+A) mkdir
++B) ps
+C) touch
+D) cd
+
+67. ما وظيفة الأمر top؟ / What is the function of the top command?
+A) إنشاء مجلد / Creating a directory
++B) عرض العمليات واستهلاك موارد النظام بشكل مباشر / Displaying processes and system resource usage in real time
+C) تغيير اسم المستخدم / Changing the username
+D) حذف سجل النظام / Deleting system logs
+
+68. أين توجد ملفات سجل النظام غالباً في Linux؟ / Where are system log files commonly stored in Linux?
+A) /home
+B) /bin
++C) /var/log
+D) /boot
+
+69. ما وظيفة الأمر sudo؟ / What is the function of sudo?
+A) تشغيل الإنترنت / Starting the internet
++B) تنفيذ أمر بصلاحيات مستخدم آخر، غالباً المدير / Running a command with another user's privileges, commonly root
+C) حذف جميع الملفات / Deleting all files
+D) عرض مساحة الشاشة / Displaying screen size
+
+70. ما وظيفة SSH؟ / What is the function of SSH?
+A) نقل الصور فقط / Transferring images only
++B) توفير اتصال آمن عن بُعد بسطر الأوامر / Providing secure remote command-line access
+C) تشغيل الطابعة / Running a printer
+D) توزيع عناوين DNS / Assigning DNS addresses
+
+71. ما المنفذ الافتراضي لبروتوكول SSH؟ / What is the default port for SSH?
+A) 21
++B) 22
+C) 80
+D) 443
+
+72. ما وظيفة DNS Server في Windows Server؟ / What is the function of DNS Server in Windows Server?
+A) إدارة الطابعات فقط / Managing printers only
++B) ترجمة أسماء النطاقات إلى عناوين IP / Translating domain names into IP addresses
+C) تشفير الأقراص / Encrypting disks
+D) إدارة ذاكرة الجهاز / Managing device memory
+
+73. ما وظيفة Active Directory؟ / What is the function of Active Directory?
+A) تحرير الفيديو / Editing video
++B) إدارة المستخدمين والأجهزة والموارد داخل نطاق Windows / Managing users, computers, and resources in a Windows domain
+C) مراقبة درجة حرارة المعالج / Monitoring CPU temperature
+D) ضغط الملفات / Compressing files
+
+74. ما المقصود بـ Domain Controller؟ / What is a Domain Controller?
+A) جهاز لتخزين الصور / A device for storing images
++B) خادم يدير المصادقة وخدمات المجال / A server that manages domain authentication and services
+C) جهاز لتوزيع الكهرباء / A device distributing electricity
+D) برنامج لتعديل النصوص / A text editing program
+
+75. ما وظيفة Group Policy في Windows Server؟ / What is the function of Group Policy in Windows Server?
+A) إنشاء عناوين MAC / Creating MAC addresses
++B) تطبيق وإدارة إعدادات المستخدمين والأجهزة مركزياً / Centrally applying and managing user and computer settings
+C) زيادة سرعة المعالج / Increasing CPU speed
+D) حذف سجلات DNS / Deleting DNS records
+76. ما وظيفة خدمة Windows Server DHCP؟ / What is the function of Windows Server DHCP?
+A) إدارة كلمات مرور المواقع / Managing website passwords
++B) توزيع عناوين IP وإعدادات الشبكة تلقائياً / Automatically assigning IP addresses and network settings
+C) تشفير الملفات فقط / Only encrypting files
+D) تشغيل برامج التصميم / Running design software
+
+77. ما وظيفة File Server؟ / What is the function of a file server?
+A) إدارة بطارية الأجهزة / Managing device batteries
++B) توفير تخزين ومشاركة الملفات عبر الشبكة / Providing file storage and sharing over a network
+C) توزيع إشارات Wi-Fi فقط / Only distributing Wi-Fi signals
+D) ترجمة عناوين IP / Translating IP addresses
+
+78. ما وظيفة الأمر Get-Service في PowerShell؟ / What is the function of Get-Service in PowerShell?
+A) حذف جميع الخدمات / Deleting all services
++B) عرض الخدمات الموجودة وحالاتها / Displaying installed services and their statuses
+C) تغيير عنوان MAC / Changing the MAC address
+D) إنشاء حساب بريد إلكتروني / Creating an email account
+
+79. ما وظيفة Windows Event Viewer؟ / What is the function of Windows Event Viewer?
+A) تعديل الصور / Editing images
++B) عرض سجلات الأحداث والأخطاء في النظام / Viewing system event and error logs
+C) تغيير حجم القرص / Changing disk size
+D) إنشاء شبكات لاسلكية / Creating wireless networks
+
+80. ما وظيفة النسخ الاحتياطي في Windows Server؟ / What is the function of backup in Windows Server?
+A) تعطيل المستخدمين / Disabling users
+B) زيادة عدد منافذ الشبكة / Increasing network ports
++C) استعادة الملفات والبيانات عند فقدانها / Restoring files and data after loss
+D) حذف سجلات النظام / Deleting system logs
+

@@ -1,0 +1,247 @@
+
+
+========== bot.py ==========
+
+
+========== handlers.py ==========
+34:         [InlineKeyboardButton("📝 🎯 ابدأ الاختبار", callback_data="menu:start")],
+37:         rows.append([InlineKeyboardButton("🌐 🌐 الاختبار النهائي", web_app=WebAppInfo(url=WEBAPP_URL))])
+39:         [InlineKeyboardButton("📊 🏆 نتائجي", callback_data="menu:my")],
+40:         [InlineKeyboardButton("🏆 🥇 أفضل النتائج", callback_data="menu:top")],
+41:         [InlineKeyboardButton("⚙️ ⚙️ الإعدادات", callback_data="menu:settings")],
+42:         [InlineKeyboardButton("ℹ️ ℹ️ حول البوت", callback_data="menu:about")],
+45:         rows.append([InlineKeyboardButton("👑 👨‍💻 لوحة الإدارة", callback_data="admin:home")])
+51:         [[InlineKeyboardButton("⬅️ 🏠 القائمة الرئيسية", callback_data="menu:home")]]
+56:     # We use plain text everywhere — but if a question has special chars,
+70:         await message.reply_text("⚠️ لا توجد مواضيع متاحة حالياً.")
+74:         rows.append([InlineKeyboardButton(f"📘 {name}", callback_data=f"subj:{path.stem}")])
+76:         "📚 *📚 اختر موضوعاً لبدء الاختبار الجماعي:*"
+78:         else "📚 📚 اختر موضوعاً:"
+92:             f"👋 *بوت الاختبارات في المجموعة!*\n\n"
+93:             f"Bu yerda guruh kvizini o'tkazasiz — barcha a'zolar qatnashadi.\n\n"
+94:             f"لبدء الاختبار أرسل الأمر /quiz."
+100:         f"السلام عليكم, *{user.first_name}*! 👋\n\n"
+101:         f"📚 Bu — *Test Bot*.\n\n"
+112:     """Start a quiz — works in both private and group chats."""
+120:             "⚠️ Bu chatda allaqachon faol test bor. To'xtatish uchun /cancel."
+129:         "📖 *Yordam*\n\n"
+130:         "/start — 🏠 القائمة الرئيسية\n"
+131:         "/quiz — Yangi test boshlash (guruhda ham ishlaydi)\n"
+132:         "/cancel — Joriy testni bekor qilish\n\n"
+133:         "Har savolga ajratilgan vaqtni ⚙️ *⚙️ الإعدادات*'da o'zingiz tanlaysiz (10/15/20/30 sekund).\n\n"
+134:         "👥 *Guruh rejimi:* Botni guruhga qo'shing, /quiz yuboring — barcha a'zolar qatnashishi mumkin."
+145:         "🏠 القائمة الرئيسية:",
+165:                         "⛔ Faqat testni boshlagan kishi yoki guruh admini to'xtata oladi."
+169:                 await update.message.reply_text("⛔ Ruxsat tekshirib bo'lmadi.")
+187:             "🏠 القائمة الرئيسية:",
+200:             "ℹ️ *ℹ️ حول البوت*\n\n"
+202:             "• Har savol uchun vaqtni ⚙️ *⚙️ الإعدادات*'da o'zingiz tanlaysiz (10/15/20/30 s)\n"
+203:             "• Natijalar saqlanadi va top natijalar reytingi yuritiladi\n"
+204:             "• Adminlar yangi fan qo'shishi mumkin",
+214:         mark = "  ✅" if s == current else ""
+215:         rows.append([InlineKeyboardButton(f"⏱ {s} sekund{mark}", callback_data=f"timer:{s}")])
+216:     rows.append([InlineKeyboardButton("⬅️ 🏠 القائمة الرئيسية", callback_data="menu:home")])
+218:         f"⚙️ *⚙️ الإعدادات*\n"
+219:         f"━━━━━━━━━━━━━━━━━━\n"
+222:         f"Guruh kvizida — kvizni boshlagan kishining sozlamasi ishlatiladi.",
+246:     await cq.answer(f"✅ Vaqt {seconds} sekundga sozlandi")
+254:             "⚠️ لا توجد مواضيع متاحة حالياً. Admin qo'shishini kuting.",
+260:         rows.append([InlineKeyboardButton(f"📘 {name}", callback_data=f"subj:{path.stem}")])
+261:     rows.append([InlineKeyboardButton("⬅️ Orqaga", callback_data="menu:home")])
+263:         "📚 📚 اختر موضوعاً:",
+274:         await q.edit_message_text("❌ Fan topilmadi.", reply_markup=back_kb())
+278:         await q.edit_message_text("❌ Bu fanda savollar yo'q.", reply_markup=back_kb())
+284:         f"📘 *{display_name}*\n\n"
+285:         f"📝 Savollar soni: *{len(questions)} ta*\n"
+286:         f"⏱ Har savolga: *{user_timer} sekund*\n"
+287:         f"🔀 Savollar tasodifiy tartibda beriladi\n\n"
+291:         [InlineKeyboardButton("✅ Ha, boshlash", callback_data=f"begin:{stem}")],
+292:         [InlineKeyboardButton("⬅️ Orqaga", callback_data="menu:start")],
+309:     return text[: limit - 1] + "…"
+343:         await cq.edit_message_text("❌ Savollar yuklanmadi.")
+371:         "👥 *Guruh rejimi:* barcha a'zolar qatnasha oladi\n"
+377:             f"🚀 *Test boshlandi!*\n\n"
+378:             f"📘 Fan: *{display_name}*\n"
+379:             f"📝 Savollar: *{len(questions)} ta*\n"
+380:             f"⏱ Har savolga: *{timer_seconds} sekund*\n"
+393:         InlineKeyboardButton("⏸ Pauza", callback_data="ctl:pause"),
+394:         InlineKeyboardButton("⛔ Tugatish", callback_data="ctl:stop"),
+400:         InlineKeyboardButton("▶️ Davom etish", callback_data="ctl:resume"),
+401:         InlineKeyboardButton("⛔ Tugatish", callback_data="ctl:stop"),
+430:     header = f"❓ Savol {idx + 1}/{total}"
+439:     explanation = _truncate(f"✅ To'g'ri: {shuffled[correct_idx][1]}", POLL_EXPLANATION_MAX)
+581:                 f"⏸ *Hech kim javob bermadi — test pauza qilindi*\n\n"
+583:                 f"▶️ *Davom etish* bilan davom eting, yoki\n"
+584:                 f"⛔ *Tugatish* bilan natijalarni saqlang."
+590:     # At least one answer received — mark non-answerers as skipped, advance
+680:             text="❌ تم إيقاف الاختبار (hech bir savolga javob bermadingiz)."
+691:         grade, emoji = "🏆 A'lo darajada!", "🎊"
+693:         grade, emoji = "🥇 Yaxshi natija", "🎉"
+695:         grade, emoji = "🥈 Qoniqarli", "👍"
+697:         grade, emoji = "🥉 O'rtacha", "💪"
+699:         grade, emoji = "📕 Yana harakat qiling", "📚"
+701:     title = "تم إيقاف الاختبار" if stopped_early else "Test yakunlandi!"
+703:         f"⚠️ Erta to'xtatildi: *{answered_total}/{total}* savolga javob berildi\n\n"
+713:                 rank_line = f"🏅 Joriy o'rningiz: *{i}* / {len(rows)}\n"
+724:                 best_line = f"⭐ Eng yaxshi natijangiz: *{best['correct']}/{best['total']}* ({best_pct:.0f}%)\n"
+730:         f"━━━━━━━━━━━━━━━━━━\n"
+731:         f"📘 Fan: *{state['subject']}*\n"
+733:         f"📊 Natija: *{correct}/{total}* ({pct:.1f}%)\n\n"
+734:         f"✅ To'g'ri: {correct}\n"
+735:         f"❌ Noto'g'ri: {wrong}\n"
+736:         f"⏭ O'tkazib yuborilgan: {skipped}\n"
+737:         f"━━━━━━━━━━━━━━━━━━\n"
+744:         [InlineKeyboardButton("🔄 Qayta urinish", callback_data=f"begin:{stem}")],
+745:         [InlineKeyboardButton("🏆 🏆 المتصدرون", callback_data="menu:top")],
+746:         [InlineKeyboardButton("🏠 🏠 القائمة الرئيسية", callback_data="menu:home")],
+758:             text=f"🏁 *تم إيقاف الاختبار*\n\n📘 Fan: *{state['subject']}*\n\n🤷 Hech kim qatnashmadi.",
+768:     medals = ["🥇", "🥈", "🥉"] + ["🏅"] * 100
+770:     title = "تم إيقاف الاختبار" if stopped_early else "Test yakunlandi!"
+773:         f"⚠️ Erta to'xtatildi: *{answered_q}/{total}* savol o'tildi"
+775:         else f"📝 Savollar: *{total}*"
+779:         f"🏁 *{title}*",
+780:         f"━━━━━━━━━━━━━━━━━━",
+781:         f"📘 Fan: *{state['subject']}*",
+783:         f"👥 Qatnashganlar: *{len(ranked)}*",
+784:         f"━━━━━━━━━━━━━━━━━━",
+786:         f"🏆 *🏆 المتصدرون:*",
+792:             f"{medals[i]} *{name}* — {p['correct']}/{total} ({pct:.0f}%)"
+796:         [InlineKeyboardButton("🔄 Yana o'ynash", callback_data=f"begin:{state['subject_stem']}")],
+807:     """Silent cleanup — used when a new test is starting and we want to clear
+839:             "⛔ Bu tugmani faqat testni boshlagan kishi yoki guruh admini bosishi mumkin.",
+857:     await cq.answer("⏸ Pauza qilindi")
+880:             f"⏸ *Test pauza qilindi*\n\n"
+882:             f"Davom etish uchun yuqoridagi ▶️ tugmasini bosing."
+892:     await cq.answer("▶️ Davom etmoqda...")
+907:     await cq.answer("⛔ تم إيقاف الاختبار")
+920:             "📊 📊 ليست لديك نتائج اختبارات بعد.",
+925:     lines = ["📊 *📊 نتائجك*", "━━━━━━━━━━━━━━━━━━"]
+928:         lines.append("\n*📚 📚 النتائج حسب المواد:*\n")
+933:                 f"• *{s['subject']}*\n"
+934:                 f"   عدد المحاولات: *{s['attempts']}* · أفضل نتيجة: *{best:.0f}%* · O'rtacha: *{avg:.0f}%*"
+939:         lines.append("\n*🕐 آخر المحاولات:*\n")
+944:                 f"• `{date}` — {a['subject']}: {a['correct']}/{a['total']} ({pct:.0f}%)"
+957:     rows = [[InlineKeyboardButton("🌐 🌐 عام (جميع المواد)", callback_data="top:all")]]
+959:         rows.append([InlineKeyboardButton(f"📘 {name}", callback_data=f"top:{path.stem}")])
+960:     rows.append([InlineKeyboardButton("⬅️ 🏠 القائمة الرئيسية", callback_data="menu:home")])
+962:         "🏆 *🏆 لوحة المتصدرين*\n\n📚 أي مادة تريد عرض نتائجها؟",
+976:         title = "🌐 🏆 لوحة المتصدرين العامة (جميع المواد)"
+982:         title = f"📘 {display_name} — liderlar"
+987:             f"{title}\n\n🤷 Hozircha natijalar yo'q.",
+989:                 InlineKeyboardButton("⬅️ Orqaga", callback_data="menu:top")
+994:     medals = ["🥇", "🥈", "🥉"] + ["🏅"] * 12
+995:     lines = [f"🏆 *{title}*", "━━━━━━━━━━━━━━━━━━", ""]
+1003:         marker = "👉 " if r["user_id"] == user_id else ""
+1004:         subj_suffix = "" if subject_filter else f" · {r['subject']}"
+1006:             f"{medals[i-1] if i <= 15 else '·'} {marker}*{name}*  —  "
+1022:     lines.append("━━━━━━━━━━━━━━━━━━")
+1025:         lines.append(f"🎯 Sizning eng yaxshi o'rningiz:  *{user_rank}*  ({user_entry['correct']}/{user_entry['total']}, {pct:.0f}%)")
+1027:         lines.append("🎯 Siz hali test topshirmagansiz.")
+1032:             InlineKeyboardButton("⬅️ 🏆 المتصدرون", callback_data="menu:top"),
+1033:             InlineKeyboardButton("🏠 🏠 القائمة الرئيسية", callback_data="menu:home"),
+1044:         await update.message.reply_text("⛔ Sizda admin huquqi yo'q.")
+1047:         f"👑 *👨‍💻 لوحة الإدارة*\nUser ID: `{user.id}`",
+1055:         [InlineKeyboardButton("📊 Statistika", callback_data="admin:stats")],
+1056:         [InlineKeyboardButton("👥 Foydalanuvchilar", callback_data="admin:users")],
+1057:         [InlineKeyboardButton("🏆 Eng yaxshi natijalar", callback_data="admin:top")],
+1058:         [InlineKeyboardButton("📚 Fanlar ro'yxati", callback_data="admin:subjects")],
+1059:         [InlineKeyboardButton("➕ Yangi fan qo'shish", callback_data="admin:addsubject")],
+1060:         [InlineKeyboardButton("📢 Hammaga xabar yuborish", callback_data="admin:broadcast")],
+1061:         [InlineKeyboardButton("⬅️ 🏠 القائمة الرئيسية", callback_data="menu:home")],
+1069:         await q.answer("⛔ Admin emas", show_alert=True)
+1076:             f"👑 *👨‍💻 لوحة الإدارة*\nUser ID: `{user.id}`",
+1083:         per_subj = "\n".join(f"  • {n}: {c} marta" for n, c in s["per_subject"]) or "  (yo'q)"
+1085:             f"📊 *Statistika*\n\n"
+1086:             f"👥 Foydalanuvchilar: *{s['users']}*\n"
+1087:             f"📝 Tugatilgan testlar: *{s['attempts']}*\n"
+1088:             f"📈 O'rtacha ball: *{s['avg_score']*100:.1f}%*\n\n"
+1089:             f"*📚 النتائج حسب المواد:*\n{per_subj}"
+1098:         lines = ["👥 *So'nggi foydalanuvchilar (30 tasi):*", "Profil ko'rish uchun tugmani bosing.\n"]
+1101:             uname = f"@{u['username']}" if u["username"] else "—"
+1102:             lines.append(f"• `{u['user_id']}` · {u['first_name'] or '—'} · {uname} · testlar: {u['attempts_count']}")
+1103:             label = f"👤 {u['first_name'] or u['user_id']} ({u['attempts_count']})"
+1105:         rows.append([InlineKeyboardButton("⬅️ 👨‍💻 لوحة الإدارة", callback_data="admin:home")])
+1116:             await q.edit_message_text("❌ Noto'g'ri ID.", reply_markup=_admin_back_kb())
+1125:         lines = ["🏆 *Eng yaxshi natijalar (20):*\n"]
+1129:             lines.append(f"{i}. *{name}* · {r['subject']} · {r['correct']}/{r['total']} ({pct:.0f}%)")
+1138:         lines = ["📚 *Fanlar:*", "Boshqarish uchun tugmani bosing.\n"]
+1142:                 lines.append(f"• *{name}* — {len(qs)} ta savol")
+1144:                 lines.append(f"• *{name}* — ❌ xato: {e}")
+1145:             rows.append([InlineKeyboardButton(f"📘 {name}", callback_data=f"admin:sub:{path.stem}")])
+1146:         rows.append([InlineKeyboardButton("⬅️ 👨‍💻 لوحة الإدارة", callback_data="admin:home")])
+1169:             f"✏️ Yangi fayl nomini yuboring (kengaytmasiz, faqat lotin harflari va `_`).\n\n"
+1179:             "📤 Yangi fan qo'shish uchun *.txt* faylni yuboring.\n\n"
+1190:             "📢 Hammaga yubormoqchi bo'lgan xabaringizni yozing.\n\n"
+1198:         [InlineKeyboardButton("⬅️ 👨‍💻 لوحة الإدارة", callback_data="admin:home")],
+1205:         await q.edit_message_text("❌ Fan topilmadi.", reply_markup=_admin_back_kb())
+1210:         count_line = f"📝 Savollar soni: *{len(qs)}*"
+1212:         count_line = f"❌ Xato: {e}"
+1215:         f"📘 *{display_name}*\n"
+1216:         f"━━━━━━━━━━━━━━━\n"
+1222:         [InlineKeyboardButton("✏️ Qayta nomlash", callback_data=f"admin:subren:{stem}")],
+1223:         [InlineKeyboardButton("🗑 O'chirish", callback_data=f"admin:subdel:{stem}")],
+1224:         [InlineKeyboardButton("⬅️ Fanlar ro'yxati", callback_data="admin:subjects")],
+1236:         await q.edit_message_text("❌ Fan topilmadi.", reply_markup=_admin_back_kb())
+1240:         [InlineKeyboardButton("✅ Ha, o'chirish", callback_data=f"admin:subdelyes:{stem}")],
+1241:         [InlineKeyboardButton("❌ Bekor qilish", callback_data=f"admin:sub:{stem}")],
+1244:         f"⚠️ *{display_name}* fanini o'chirmoqchimisiz?\n\n"
+1254:         await q.edit_message_text("❌ Fan allaqachon o'chirilgan.", reply_markup=_admin_back_kb())
+1259:         await q.edit_message_text(f"❌ Xato: {e}", reply_markup=_admin_back_kb())
+1263:         f"🗑 *{display_name}* o'chirildi.",
+1272:         await q.edit_message_text("❌ Foydalanuvchi topilmadi.", reply_markup=_admin_back_kb())
+1277:     uname = f"@{u['username']}" if u["username"] else "—"
+1278:     full_name = " ".join(filter(None, [u["first_name"], u["last_name"]])) or "—"
+1280:         f"👤 *Foydalanuvchi profili*",
+1281:         f"━━━━━━━━━━━━━━━",
+1290:         lines.append("\n*📚 📚 النتائج حسب المواد:*")
+1295:                 f"• {s['subject']} — urinishlar: *{s['attempts']}*, "
+1296:                 f"eng yaxshi: *{best:.0f}%*, المعدل: *{avg:.0f}%*"
+1303:         lines.append("\n*🕐 آخر المحاولات:*")
+1307:             lines.append(f"• `{date}` · {a['subject']}: {a['correct']}/{a['total']} ({pct:.0f}%)")
+1312:             [InlineKeyboardButton("⬅️ Foydalanuvchilar", callback_data="admin:users")],
+1313:             [InlineKeyboardButton("🏠 👨‍💻 لوحة الإدارة", callback_data="admin:home")],
+1327:         await update.message.reply_text("❌ Faqat .txt fayl qabul qilinadi.")
+1333:         await update.message.reply_text(f"⚠️ `{safe_name}` allaqachon mavjud. Avval o'chiring yoki nomini o'zgartiring.")
+1344:             await update.message.reply_text("❌ Faylda savol topilmadi. Fayl o'chirildi.")
+1348:             f"✅ *{safe_name}* qo'shildi.\nSavollar soni: *{len(qs)}*",
+1354:         await update.message.reply_text(f"❌ Faylni o'qib bo'lmadi: {e}")
+1358:     """Handle plain text — used for admin broadcast and rename flow."""
+1367:             await update.message.reply_text("❌ Nom bo'sh. Bekor qilindi.", reply_markup=main_menu_kb(user.id))
+1372:             await update.message.reply_text("❌ Eski fayl topilmadi.", reply_markup=main_menu_kb(user.id))
+1375:             await update.message.reply_text(f"⚠️ `{new_stem}.txt` allaqachon mavjud.", parse_mode=ParseMode.MARKDOWN)
+1380:             await update.message.reply_text(f"❌ Xato: {e}")
+1383:             f"✅ Qayta nomlandi: `{old_stem}.txt` → `{new_stem}.txt`",
+1396:                 await context.bot.send_message(chat_id=uid, text=f"📢 *Xabar*\n\n{text}", parse_mode=ParseMode.MARKDOWN)
+1402:             f"✅ Yuborildi: {sent}\n❌ Xato: {failed}",
+1408:     await update.message.reply_text("🏠 القائمة الرئيسية:", reply_markup=main_menu_kb(user.id))
+
+
+========== database.py ==========
+205:     """Return one row per user — their most recent finished attempt.
+209:     top. Retaking the test changes your rank — for better or worse.
+
+
+========== parser.py ==========
+19: # "A)" / "+B)" / "a)" — option letter, optionally prefixed with +
+49:         # A new question header looks like "12. ..." — but option lines like "A)"
+
+
+========== webapp.py ==========
+1: """Web app version of the test bot — opens as a Telegram WebApp (mini app).
+4:   GET  /                       — subject list (Topshiriqlar ro'yxati)
+5:   GET  /test/{stem}            — 30 random questions on one page
+6:   POST /api/submit             — receive answers, save attempt, return redirect
+7:   GET  /result/{attempt_id}    — final score page
+80: # ─── pages ───
+96:                 f'<div><h5 class="mb-1">📘 {_esc(name)}</h5>'
+97:                 f'<small class="text-muted">{count} savoldan {QUESTIONS_PER_TEST} tasi · {TEST_DURATION_MIN} daqiqa</small></div>'
+98:                 f'<span class="badge bg-primary rounded-pill">Boshlash →</span>'
+232: # ─── HTML ───
+264: <h3 class="mb-4">📚 Topshiriqlar ro'yxati</h3>
+274:   <div><strong>{{subject_name}}</strong> · {{total}} savol</div>
+275:   <div class="timer" id="timer">⏱ —:—</div>
+305:     timer.textContent = '⏱ ' + fmt(remaining);
+395:     <a href="/" class="btn btn-outline-secondary">‹ Topshiriqlar ro'yxatiga qaytish</a>
+
+
+========== config.py ==========

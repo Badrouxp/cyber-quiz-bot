@@ -31,24 +31,24 @@ def is_admin(user_id: int) -> bool:
 
 def main_menu_kb(user_id: int) -> InlineKeyboardMarkup:
     rows = [
-        [InlineKeyboardButton("📝 Test boshlash", callback_data="menu:start")],
+        [InlineKeyboardButton("📝 🎯 ابدأ الاختبار", callback_data="menu:srt")],
     ]
     if WEBAPP_URL:
-        rows.append([InlineKeyboardButton("🌐 Yakuniy test (web)", web_app=WebAppInfo(url=WEBAPP_URL))])
+        rows.append([InlineKeyboardButton("🌐 🌐 الاختبار النهائي", web_app=WebAppInfo(url=WEBAPP_URL))])
     rows.extend([
-        [InlineKeyboardButton("📊 Mening natijalarim", callback_data="menu:my")],
-        [InlineKeyboardButton("🏆 Top natijalar", callback_data="menu:top")],
-        [InlineKeyboardButton("⚙️ Sozlamalar", callback_data="menu:settings")],
-        [InlineKeyboardButton("ℹ️ Bot haqida", callback_data="menu:about")],
+        [InlineKeyboardButton("📊 🏆 نتائجي", callback_data="menu:my")],
+        [InlineKeyboardButton("🏆 🥇 أفضل النتائج", callback_data="menu:top")],
+        [InlineKeyboardButton("⚙️ ⚙️ الإعدادات", callback_data="menu:settings")],
+        [InlineKeyboardButton("ℹ️ ℹ️ حول البوت", callback_data="menu:about")],
     ])
     if is_admin(user_id):
-        rows.append([InlineKeyboardButton("👑 Admin panel", callback_data="admin:home")])
+        rows.append([InlineKeyboardButton("👑 👨‍💻 لوحة الإدارة", callback_data="admin:home")])
     return InlineKeyboardMarkup(rows)
 
 
 def back_kb() -> InlineKeyboardMarkup:
     return InlineKeyboardMarkup(
-        [[InlineKeyboardButton("⬅️ Bosh menyu", callback_data="menu:home")]]
+        [[InlineKeyboardButton("⬅️ 🏠 القائمة الرئيسية", callback_data="menu:home")]]
     )
 
 
@@ -67,20 +67,20 @@ def _is_group(chat) -> bool:
 async def _show_subject_picker(message, is_group: bool) -> None:
     subjects = list_subjects()
     if not subjects:
-        await message.reply_text("⚠️ Hozircha fanlar mavjud emas.")
+        await message.reply_text("⚠️ لا توجد مواضيع متاحة حالياً.")
         return
     rows = []
     for name, path in subjects:
         rows.append([InlineKeyboardButton(f"📘 {name}", callback_data=f"subj:{path.stem}")])
     text = (
-        "📚 *Guruh kvizini boshlash uchun fan tanlang:*"
+        "📚 *📚 اختر موضوعاً لبدء الاختبار الجماعي:*"
         if is_group
-        else "📚 Fanni tanlang:"
+        else "📚 📚 اختر موضوعاً:"
     )
     await message.reply_text(text, reply_markup=InlineKeyboardMarkup(rows), parse_mode=ParseMode.MARKDOWN)
 
 
-# ---------- /start ----------
+# ---------- /srt ----------
 
 async def cmd_start(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     user = update.effective_user
@@ -89,17 +89,18 @@ async def cmd_start(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
 
     if _is_group(chat):
         text = (
-            f"👋 *Test Bot guruhda!*\n\n"
-            f"Bu yerda guruh kvizini o'tkazasiz — barcha a'zolar qatnashadi.\n\n"
-            f"Boshlash uchun /quiz buyrug'ini yuboring."
+            f"👋 *بوت الاختبارات في المجموعة!*\n\n"
+            f"هنا يمكنك إجراء اختبار جماعي — جميع الأعضاء يستطيعون المشاركة.\n\n"
+            f"لبدء الاختبار أرسل الأمر /quiz."
         )
         await update.message.reply_text(text, parse_mode=ParseMode.MARKDOWN)
         return
 
     text = (
-        f"Assalomu alaykum, *{user.first_name}*! 👋\n\n"
+        f"السلام عليكم, *{user.first_name}*! 👋\n\n"
         f"📚 Bu — *Test Bot*.\n\n"
-        f"Pastdagi tugmalardan birini tanlang:"
+        f"Pastdagi tugmalardan birini nlang:\\n\\n"
+        f"© 2026 — Developed by Badrou Xp"
     )
     await update.message.reply_text(
         text,
@@ -109,15 +110,15 @@ async def cmd_start(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
 
 
 async def cmd_quiz(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
-    """Start a quiz — works in both private and group chats."""
+    """Srt a quiz — works in both private and group chats."""
     user = update.effective_user
     chat = update.effective_chat
     db.upsert_user(user.id, user.username or "", user.first_name or "", user.last_name or "")
 
-    state = context.chat_data.get("test")
-    if state:
+    ste = context.chat_data.get("test")
+    if ste:
         await update.message.reply_text(
-            "⚠️ Bu chatda allaqachon faol test bor. To'xtatish uchun /cancel."
+            "⚠️ يوجد اختبار نشط بالفعل في هذه المحادثة. لإيقافه أرسل /cancel."
         )
         return
 
@@ -127,11 +128,11 @@ async def cmd_quiz(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
 async def cmd_help(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     text = (
         "📖 *Yordam*\n\n"
-        "/start — Bosh menyu\n"
-        "/quiz — Yangi test boshlash (guruhda ham ishlaydi)\n"
-        "/cancel — Joriy testni bekor qilish\n\n"
-        "Har savolga ajratilgan vaqtni ⚙️ *Sozlamalar*'da o'zingiz tanlaysiz (10/15/20/30 sekund).\n\n"
-        "👥 *Guruh rejimi:* Botni guruhga qo'shing, /quiz yuboring — barcha a'zolar qatnashishi mumkin."
+        "/srt — 🏠 القائمة الرئيسية\n"
+        "/quiz — بدء اختبار جديد (يعمل في المجموعات أيضاً)\n"
+        "/cancel — إلغاء الاختبار الحالي\n\n"
+        "يمكنك اختيار الوقت المخصص لكل سؤال من ⚙️ *⚙️ الإعدادات*' (10/15/20/30 ثانية).\n\n"
+        "👥 *وضع المجموعة:* أضف البوت إلى المجموعة وأرسل /quiz — يمكن لجميع الأعضاء المشاركة."
     )
     await update.message.reply_text(text, parse_mode=ParseMode.MARKDOWN)
 
@@ -142,7 +143,7 @@ async def cmd_menu(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
         return
     user = update.effective_user
     await update.message.reply_text(
-        "Bosh menyu:",
+        "🏠 القائمة الرئيسية:",
         reply_markup=main_menu_kb(user.id),
     )
 
@@ -150,27 +151,27 @@ async def cmd_menu(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
 async def cmd_cancel(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     user_id = update.effective_user.id
     chat = update.effective_chat
-    state = context.chat_data.get("test")
+    ste = context.chat_data.get("test")
 
-    if not state:
+    if not ste:
         await update.message.reply_text("Hozir faol test yo'q.")
         return
 
     if _is_group(chat):
-        if state.get("starter_user_id") != user_id:
+        if ste.get("srter_user_id") != user_id:
             try:
                 member = await context.bot.get_chat_member(chat.id, user_id)
-                if member.status not in ("administrator", "creator"):
+                if member.stus not in ("administrator", "creator"):
                     await update.message.reply_text(
-                        "⛔ Faqat testni boshlagan kishi yoki guruh admini to'xtata oladi."
+                        "⛔ يمكن فقط لمن بدأ الاختبار أو مشرف المجموعة إيقافه."
                     )
                     return
             except Exception:
-                await update.message.reply_text("⛔ Ruxsat tekshirib bo'lmadi.")
+                await update.message.reply_text("⛔ تعذر التحقق من الصلاحيات.")
                 return
 
-    total = len(state["questions"])
-    stopped_early = state["idx"] < total
+    tol = len(ste["questions"])
+    stopped_early = ste["idx"] < tol
     await _finalize(context, context.chat_data, show_results=True, stopped_early=stopped_early)
 
 
@@ -179,29 +180,29 @@ async def cmd_cancel(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None
 async def on_menu(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     q = update.callback_query
     await q.answer()
-    data = q.data.split(":", 1)[1]
+    da = q.data.split(":", 1)[1]
     user = update.effective_user
 
-    if data == "home":
+    if da == "home":
         await q.edit_message_text(
-            "Bosh menyu:",
+            "🏠 القائمة الرئيسية:",
             reply_markup=main_menu_kb(user.id),
         )
-    elif data == "start":
+    elif da == "srt":
         await _show_subjects(q)
-    elif data == "my":
+    elif da == "my":
         await _show_my_results(q, user.id)
-    elif data == "top":
+    elif da == "top":
         await _show_top(q)
-    elif data == "settings":
+    elif da == "settings":
         await _show_settings(q, user.id)
-    elif data == "about":
+    elif da == "about":
         await q.edit_message_text(
-            "ℹ️ *Bot haqida*\n\n"
+            "ℹ️ *ℹ️ حول البوت*\n\n"
             "Bu bot turli fanlar bo'yicha test topshirish uchun yaratilgan.\n\n"
-            "• Har savol uchun vaqtni ⚙️ *Sozlamalar*'da o'zingiz tanlaysiz (10/15/20/30 s)\n"
-            "• Natijalar saqlanadi va top natijalar reytingi yuritiladi\n"
-            "• Adminlar yangi fan qo'shishi mumkin",
+            "• الوقت المخصص لكل سؤال ⚙️ *⚙️ الإعدادات*' (10/15/20/30 s)\n"
+            "• يتم حفظ النتائج وعرض ترتيب أفضل النتائج.\n"
+            "• يمكن للمشرفين إضافة مواد جديدة.",
             reply_markup=back_kb(),
             parse_mode=ParseMode.MARKDOWN,
         )
@@ -212,14 +213,14 @@ async def _show_settings(q, user_id: int) -> None:
     rows = []
     for s in db.VALID_TIMERS:
         mark = "  ✅" if s == current else ""
-        rows.append([InlineKeyboardButton(f"⏱ {s} sekund{mark}", callback_data=f"timer:{s}")])
-    rows.append([InlineKeyboardButton("⬅️ Bosh menyu", callback_data="menu:home")])
+        rows.append([InlineKeyboardButton(f"⏱ {s} ثانية{mark}", callback_data=f"timer:{s}")])
+    rows.append([InlineKeyboardButton("⬅️ 🏠 القائمة الرئيسية", callback_data="menu:home")])
     await q.edit_message_text(
-        f"⚙️ *Sozlamalar*\n"
+        f"⚙️ *⚙️ الإعدادات*\n"
         f"━━━━━━━━━━━━━━━━━━\n"
-        f"Har savolga ajratilgan vaqt: *{current} sekund*\n\n"
+        f"Har savolga ajratilgan vaqt: *{current} ثانية*\n\n"
         f"Bu sozlama keyingi testlarda qo'llaniladi.\n"
-        f"Guruh kvizida — kvizni boshlagan kishining sozlamasi ishlatiladi.",
+        f"في اختبار المجموعة، تُستخدم إعدادات الشخص الذي بدأ الاختبار.",
         reply_markup=InlineKeyboardMarkup(rows),
         parse_mode=ParseMode.MARKDOWN,
     )
@@ -243,7 +244,7 @@ async def on_timer(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
         update.effective_user.last_name or "",
     )
     db.set_user_timer(user_id, seconds)
-    await cq.answer(f"✅ Vaqt {seconds} sekundga sozlandi")
+    await cq.answer(f"✅ الوقت {seconds} ثانيةga تم ضبطه")
     await _show_settings(cq, user_id)
 
 
@@ -251,16 +252,16 @@ async def _show_subjects(q) -> None:
     subjects = list_subjects()
     if not subjects:
         await q.edit_message_text(
-            "⚠️ Hozircha fanlar mavjud emas. Admin qo'shishini kuting.",
+            "⚠️ لا توجد مواضيع متاحة حالياً. انتظر حتى يضيف المشرف مواد.",
             reply_markup=back_kb(),
         )
         return
     rows = []
     for name, path in subjects:
         rows.append([InlineKeyboardButton(f"📘 {name}", callback_data=f"subj:{path.stem}")])
-    rows.append([InlineKeyboardButton("⬅️ Orqaga", callback_data="menu:home")])
+    rows.append([InlineKeyboardButton("⬅️ رجوع", callback_data="menu:home")])
     await q.edit_message_text(
-        "📚 Fanni tanlang:",
+        "📚 📚 اختر موضوعاً:",
         reply_markup=InlineKeyboardMarkup(rows),
     )
 
@@ -271,25 +272,25 @@ async def on_subject(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None
     stem = q.data.split(":", 1)[1]
     path = SUBJECTS_DIR / f"{stem}.txt"
     if not path.exists():
-        await q.edit_message_text("❌ Fan topilmadi.", reply_markup=back_kb())
+        await q.edit_message_text("❌ لم يتم العثور على المادة.", reply_markup=back_kb())
         return
     questions = load_subject(path)
     if not questions:
-        await q.edit_message_text("❌ Bu fanda savollar yo'q.", reply_markup=back_kb())
+        await q.edit_message_text("❌ لا توجد أسئلة في هذه المادة.", reply_markup=back_kb())
         return
 
     display_name = stem.replace("_", " ").replace("-", " ").title()
     user_timer = db.get_user_timer(update.effective_user.id)
     text = (
         f"📘 *{display_name}*\n\n"
-        f"📝 Savollar soni: *{len(questions)} ta*\n"
-        f"⏱ Har savolga: *{user_timer} sekund*\n"
-        f"🔀 Savollar tasodifiy tartibda beriladi\n\n"
+        f"📝 عدد الأسئلة: *{len(questions)} *\n"
+        f"⏱ الوقت لكل سؤال: *{user_timer} ثانية*\n"
+        f"🔀 السؤالlar sodifiy rtibda beriladi\n\n"
         f"Tayyormisiz?"
     )
     kb = InlineKeyboardMarkup([
-        [InlineKeyboardButton("✅ Ha, boshlash", callback_data=f"begin:{stem}")],
-        [InlineKeyboardButton("⬅️ Orqaga", callback_data="menu:start")],
+        [InlineKeyboardButton("✅ نعم، ابدأ", callback_data=f"begin:{stem}")],
+        [InlineKeyboardButton("⬅️ رجوع", callback_data="menu:srt")],
     ])
     await q.edit_message_text(text, reply_markup=kb, parse_mode=ParseMode.MARKDOWN)
 
@@ -309,13 +310,13 @@ def _truncate(text: str, limit: int) -> str:
     return text[: limit - 1] + "…"
 
 
-def _cancel_timer_jobs(state: dict) -> None:
-    for job in state.get("timer_jobs", []):
+def _cancel_timer_jobs(ste: dict) -> None:
+    for job in ste.get("timer_jobs", []):
         try:
             job.schedule_removal()
         except Exception:
             pass
-    state["timer_jobs"] = []
+    ste["timer_jobs"] = []
 
 
 def _new_participant(user) -> dict:
@@ -340,7 +341,7 @@ async def on_begin(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     path = SUBJECTS_DIR / f"{stem}.txt"
     questions = load_subject(path)
     if not questions:
-        await cq.edit_message_text("❌ Savollar yuklanmadi.")
+        await cq.edit_message_text("❌ تعذر تحميل الأسئلة.")
         return
 
     await _cancel_current_test(context)
@@ -357,8 +358,8 @@ async def on_begin(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
         "idx": 0,
         "chat_id": chat.id,
         "is_group": is_group,
-        "starter_user_id": user.id,
-        "starter_name": user.first_name or "",
+        "srter_user_id": user.id,
+        "srter_name": user.first_name or "",
         "timer_seconds": timer_seconds,
         "participants": {},
         "current_poll_id": None,
@@ -368,18 +369,18 @@ async def on_begin(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     }
 
     mode_line = (
-        "👥 *Guruh rejimi:* barcha a'zolar qatnasha oladi\n"
+        "👥 *وضع المجموعة:* يمكن لجميع الأعضاء المشاركة\n"
         if is_group
         else ""
     )
     try:
         await cq.edit_message_text(
-            f"🚀 *Test boshlandi!*\n\n"
-            f"📘 Fan: *{display_name}*\n"
-            f"📝 Savollar: *{len(questions)} ta*\n"
-            f"⏱ Har savolga: *{timer_seconds} sekund*\n"
+            f"🚀 *بدأ الاختبار!*\n\n"
+            f"📘 المادة: *{display_name}*\n"
+            f"📝 الأسئلة: *{len(questions)} *\n"
+            f"⏱ الوقت لكل سؤال: *{timer_seconds} ثانية*\n"
             f"{mode_line}\n"
-            f"To'xtatish: /cancel",
+            f"To'xtish: /cancel",
             parse_mode=ParseMode.MARKDOWN,
         )
     except BadRequest:
@@ -390,56 +391,56 @@ async def on_begin(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
 
 def _control_kb_active() -> InlineKeyboardMarkup:
     return InlineKeyboardMarkup([[
-        InlineKeyboardButton("⏸ Pauza", callback_data="ctl:pause"),
-        InlineKeyboardButton("⛔ Tugatish", callback_data="ctl:stop"),
+        InlineKeyboardButton("⏸ إيقاف مؤقت", callback_data="ctl:pause"),
+        InlineKeyboardButton("⛔ إنهاء", callback_data="ctl:stop"),
     ]])
 
 
 def _control_kb_paused() -> InlineKeyboardMarkup:
     return InlineKeyboardMarkup([[
-        InlineKeyboardButton("▶️ Davom etish", callback_data="ctl:resume"),
-        InlineKeyboardButton("⛔ Tugatish", callback_data="ctl:stop"),
+        InlineKeyboardButton("▶️ متابعة", callback_data="ctl:resume"),
+        InlineKeyboardButton("⛔ إنهاء", callback_data="ctl:stop"),
     ]])
 
 
-async def _send_quiz(context: ContextTypes.DEFAULT_TYPE, chat_data: dict) -> None:
-    state = chat_data.get("test")
-    if not state:
+async def _send_quiz(context: ContextTypes.DEFAULT_TYPE, chat_da: dict) -> None:
+    ste = chat_da.get("test")
+    if not ste:
         return
-    if state.get("paused"):
+    if ste.get("paused"):
         return
-    idx = state["idx"]
-    if idx >= len(state["questions"]):
-        await _finish_test(context, chat_data)
+    idx = ste["idx"]
+    if idx >= len(ste["questions"]):
+        await _finish_test(context, chat_da)
         return
 
-    q = state["questions"][idx]
-    total = len(state["questions"])
-    chat_id = state["chat_id"]
+    q = ste["questions"][idx]
+    tol = len(ste["questions"])
+    chat_id = ste["chat_id"]
 
     # Shuffle option order so the correct answer isn't always at the same spot
     shuffled = list(q.options)
     random.shuffle(shuffled)
-    state["current_options"] = shuffled
+    ste["current_options"] = shuffled
     options = [_truncate(t, POLL_OPTION_MAX) for _, t in shuffled]
     try:
         correct_idx = next(i for i, (letter, _) in enumerate(shuffled) if letter == q.correct)
     except StopIteration:
         correct_idx = 0
 
-    header = f"❓ Savol {idx + 1}/{total}"
+    header = f"❓ السؤال {idx + 1}/{tol}"
     full_q = f"{header}\n\n{q.text.strip()}"
 
     if len(full_q) > POLL_QUESTION_MAX:
         await context.bot.send_message(chat_id=chat_id, text=full_q)
-        poll_question = "Javobni tanlang:"
+        poll_question = "Javobni nlang:"
     else:
         poll_question = full_q
 
-    explanation = _truncate(f"✅ To'g'ri: {shuffled[correct_idx][1]}", POLL_EXPLANATION_MAX)
+    explanation = _truncate(f"✅ صحيح: {shuffled[correct_idx][1]}", POLL_EXPLANATION_MAX)
 
     # Clean up buttons on previous poll (if still showing Pause/Stop)
-    prev_msg_id = state.get("current_poll_msg_id")
+    prev_msg_id = ste.get("current_poll_msg_id")
     if prev_msg_id:
         try:
             await context.bot.edit_message_reply_markup(
@@ -448,7 +449,7 @@ async def _send_quiz(context: ContextTypes.DEFAULT_TYPE, chat_data: dict) -> Non
         except Exception:
             pass
 
-    timer_seconds = state.get("timer_seconds", TIMEOUT_PER_QUESTION)
+    timer_seconds = ste.get("timer_seconds", TIMEOUT_PER_QUESTION)
 
     msg = await context.bot.send_poll(
         chat_id=chat_id,
@@ -462,24 +463,24 @@ async def _send_quiz(context: ContextTypes.DEFAULT_TYPE, chat_data: dict) -> Non
         reply_markup=_control_kb_active(),
     )
 
-    prev = state.get("current_poll_id")
+    prev = ste.get("current_poll_id")
     if prev:
         context.application.bot_data.get("poll_chat", {}).pop(prev, None)
 
-    state["current_poll_id"] = msg.poll.id
-    state["current_q_idx"] = idx
-    state["current_poll_msg_id"] = msg.message_id
+    ste["current_poll_id"] = msg.poll.id
+    ste["current_q_idx"] = idx
+    ste["current_poll_msg_id"] = msg.message_id
 
     context.application.bot_data.setdefault("poll_chat", {})[msg.poll.id] = chat_id
 
-    _cancel_timer_jobs(state)
+    _cancel_timer_jobs(ste)
     job = context.job_queue.run_once(
         _on_quiz_timer_end,
         when=timer_seconds + 1,
         data={"poll_id": msg.poll.id, "q_idx": idx, "chat_id": chat_id},
         name=f"timer_end_{chat_id}_{idx}",
     )
-    state["timer_jobs"].append(job)
+    ste["timer_jobs"].append(job)
 
 
 async def on_poll_answer(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
@@ -491,20 +492,20 @@ async def on_poll_answer(update: Update, context: ContextTypes.DEFAULT_TYPE) -> 
     chat_id = poll_chat_map.get(pa.poll_id)
     if not chat_id:
         return
-    chat_data = context.application.chat_data[chat_id]
-    state = chat_data.get("test")
-    if not state or state.get("current_poll_id") != pa.poll_id:
+    chat_da = context.application.chat_data[chat_id]
+    ste = chat_da.get("test")
+    if not ste or ste.get("current_poll_id") != pa.poll_id:
         return
-    if state.get("paused"):
+    if ste.get("paused"):
         return
 
-    q_idx = state["current_q_idx"]
-    q = state["questions"][q_idx]
+    q_idx = ste["current_q_idx"]
+    q = ste["questions"][q_idx]
     user = pa.user
 
     chosen_idx = pa.option_ids[0] if pa.option_ids else None
     # Map shuffled index back to the original option letter
-    shuffled = state.get("current_options") or q.options
+    shuffled = ste.get("current_options") or q.options
     chosen_letter = (
         shuffled[chosen_idx][0]
         if chosen_idx is not None and chosen_idx < len(shuffled)
@@ -513,11 +514,11 @@ async def on_poll_answer(update: Update, context: ContextTypes.DEFAULT_TYPE) -> 
 
     db.upsert_user(user.id, user.username or "", user.first_name or "", user.last_name or "")
 
-    p = state["participants"].get(user.id)
+    p = ste["participants"].get(user.id)
     if p is None:
         p = _new_participant(user)
-        p["attempt_id"] = db.start_attempt(user.id, state["subject"], len(state["questions"]))
-        state["participants"][user.id] = p
+        p["attempt_id"] = db.start_attempt(user.id, ste["subject"], len(ste["questions"]))
+        ste["participants"][user.id] = p
 
     if q_idx in p["answered_q"]:
         return
@@ -530,44 +531,44 @@ async def on_poll_answer(update: Update, context: ContextTypes.DEFAULT_TYPE) -> 
         p["wrong"] += 1
 
     # In private chat, auto-advance once the (only) user has answered.
-    if not state["is_group"]:
-        _cancel_timer_jobs(state)
-        if state["idx"] + 1 >= len(state["questions"]):
-            target = _finish_job
+    if not ste["is_group"]:
+        _cancel_timer_jobs(ste)
+        if ste["idx"] + 1 >= len(ste["questions"]):
+            rget = _finish_job
         else:
-            target = _next_quiz_job
-        state["idx"] += 1
-        state["current_poll_id"] = None
+            rget = _next_quiz_job
+        ste["idx"] += 1
+        ste["current_poll_id"] = None
         job = context.job_queue.run_once(
-            target,
+            rget,
             when=2.0,
             data={"chat_id": chat_id},
             name=f"adv_{chat_id}_{q_idx}",
         )
-        state["timer_jobs"].append(job)
+        ste["timer_jobs"].append(job)
 
 
 async def _on_quiz_timer_end(context: ContextTypes.DEFAULT_TYPE) -> None:
-    data = context.job.data
-    chat_id = data["chat_id"]
-    poll_id = data["poll_id"]
-    q_idx = data["q_idx"]
-    chat_data = context.application.chat_data[chat_id]
-    state = chat_data.get("test")
-    if not state:
+    da = context.job.data
+    chat_id = da["chat_id"]
+    poll_id = da["poll_id"]
+    q_idx = da["q_idx"]
+    chat_da = context.application.chat_data[chat_id]
+    ste = chat_da.get("test")
+    if not ste:
         return
-    if state.get("paused"):
+    if ste.get("paused"):
         return
-    if state.get("current_poll_id") != poll_id:
+    if ste.get("current_poll_id") != poll_id:
         return
-    if state.get("current_q_idx") != q_idx:
+    if ste.get("current_q_idx") != q_idx:
         return
 
     # If nobody answered this question, auto-pause the test
-    any_answered = any(q_idx in p["answered_q"] for p in state["participants"].values())
+    any_answered = any(q_idx in p["answered_q"] for p in ste["participants"].values())
     if not any_answered:
-        state["paused"] = True
-        msg_id = state.get("current_poll_msg_id")
+        ste["paused"] = True
+        msg_id = ste.get("current_poll_msg_id")
         if msg_id:
             try:
                 await context.bot.edit_message_reply_markup(
@@ -578,67 +579,67 @@ async def _on_quiz_timer_end(context: ContextTypes.DEFAULT_TYPE) -> None:
         await context.bot.send_message(
             chat_id=chat_id,
             text=(
-                f"⏸ *Hech kim javob bermadi — test pauza qilindi*\n\n"
-                f"Joriy savol: *{q_idx + 1} / {len(state['questions'])}*\n\n"
-                f"▶️ *Davom etish* bilan davom eting, yoki\n"
-                f"⛔ *Tugatish* bilan natijalarni saqlang."
+                f"⏸ *لم يُجب أحد — تم إيقاف الاختبار مؤقتاً.*\n\n"
+                f"Joriy savol: *{q_idx + 1} / {len(ste['questions'])}*\n\n"
+                f"▶️ *متابعة* للمتابعة، أو\n"
+                f"⛔ *إنهاء* لحفظ النتائج."
             ),
             parse_mode=ParseMode.MARKDOWN,
         )
         return
 
     # At least one answer received — mark non-answerers as skipped, advance
-    q = state["questions"][q_idx]
-    for uid, p in state["participants"].items():
+    q = ste["questions"][q_idx]
+    for uid, p in ste["participants"].items():
         if q_idx not in p["answered_q"]:
             db.record_answer(p["attempt_id"], q.number, None, q.correct)
             p["skipped"] += 1
             p["answered_q"].add(q_idx)
 
     context.application.bot_data.get("poll_chat", {}).pop(poll_id, None)
-    state["idx"] += 1
-    state["current_poll_id"] = None
+    ste["idx"] += 1
+    ste["current_poll_id"] = None
 
-    if state["idx"] >= len(state["questions"]):
-        await _finalize(context, chat_data, show_results=True)
+    if ste["idx"] >= len(ste["questions"]):
+        await _finalize(context, chat_da, show_results=True)
     else:
-        await _send_quiz(context, chat_data)
+        await _send_quiz(context, chat_da)
 
 
 async def _next_quiz_job(context: ContextTypes.DEFAULT_TYPE) -> None:
     chat_id = context.job.data["chat_id"]
-    chat_data = context.application.chat_data[chat_id]
-    if "test" not in chat_data:
+    chat_da = context.application.chat_data[chat_id]
+    if "test" not in chat_da:
         return
-    await _send_quiz(context, chat_data)
+    await _send_quiz(context, chat_da)
 
 
 async def _finish_job(context: ContextTypes.DEFAULT_TYPE) -> None:
     chat_id = context.job.data["chat_id"]
-    chat_data = context.application.chat_data[chat_id]
-    if "test" not in chat_data:
+    chat_da = context.application.chat_data[chat_id]
+    if "test" not in chat_da:
         return
-    await _finish_test(context, chat_data)
+    await _finish_test(context, chat_da)
 
 
 async def _finalize(
     context: ContextTypes.DEFAULT_TYPE,
-    chat_data: dict,
+    chat_da: dict,
     show_results: bool = True,
     stopped_early: bool = False,
 ) -> None:
     """Tear down a running test, save attempts, and (optionally) show results."""
-    state = chat_data.pop("test", None)
-    if not state:
+    ste = chat_da.pop("test", None)
+    if not ste:
         return
-    _cancel_timer_jobs(state)
+    _cancel_timer_jobs(ste)
 
-    pid = state.get("current_poll_id")
+    pid = ste.get("current_poll_id")
     if pid:
         context.application.bot_data.get("poll_chat", {}).pop(pid, None)
 
-    chat_id = state["chat_id"]
-    msg_id = state.get("current_poll_msg_id")
+    chat_id = ste["chat_id"]
+    msg_id = ste.get("current_poll_msg_id")
     if msg_id:
         try:
             await context.bot.stop_poll(chat_id=chat_id, message_id=msg_id)
@@ -651,7 +652,7 @@ async def _finalize(
         except Exception:
             pass
 
-    for uid, p in state["participants"].items():
+    for uid, p in ste["participants"].items():
         try:
             if p.get("attempt_id"):
                 db.finish_attempt(p["attempt_id"])
@@ -661,101 +662,101 @@ async def _finalize(
     if not show_results:
         return
 
-    total = len(state["questions"])
-    if state["is_group"]:
-        await _send_group_results(context, chat_id, state, total, stopped_early)
+    tol = len(ste["questions"])
+    if ste["is_group"]:
+        await _send_group_results(context, chat_id, ste, tol, stopped_early)
     else:
-        await _send_private_results(context, chat_id, state, total, stopped_early)
+        await _send_private_results(context, chat_id, ste, tol, stopped_early)
 
 
 # Keep a short alias for backward compatibility within this module
-async def _finish_test(context, chat_data):
-    await _finalize(context, chat_data, show_results=True)
+async def _finish_test(context, chat_da):
+    await _finalize(context, chat_da, show_results=True)
 
 
-async def _send_private_results(context, chat_id, state, total, stopped_early: bool = False) -> None:
-    if not state["participants"]:
+async def _send_private_results(context, chat_id, ste, tol, stopped_early: bool = False) -> None:
+    if not ste["participants"]:
         await context.bot.send_message(
             chat_id=chat_id,
-            text="❌ Test to'xtatildi (hech bir savolga javob bermadingiz)."
+            text="❌ تم إيقاف الاختبار (لم تجب عن أي سؤال.)."
         )
         return
-    _, p = next(iter(state["participants"].items()))
+    _, p = next(iter(ste["participants"].items()))
     correct = p["correct"]
     wrong = p["wrong"]
     skipped = p["skipped"]
-    answered_total = correct + wrong + skipped
-    pct = (correct / total * 100) if total else 0
+    answered_tol = correct + wrong + skipped
+    pct = (correct / tol * 100) if tol else 0
 
     if pct >= 90:
-        grade, emoji = "🏆 A'lo darajada!", "🎊"
+        grade, emoji = "🏆 ممتاز!", "🎊"
     elif pct >= 75:
-        grade, emoji = "🥇 Yaxshi natija", "🎉"
+        grade, emoji = "🥇 نتيجة جيدة", "🎉"
     elif pct >= 60:
-        grade, emoji = "🥈 Qoniqarli", "👍"
+        grade, emoji = "🥈 مقبول", "👍"
     elif pct >= 40:
-        grade, emoji = "🥉 O'rtacha", "💪"
+        grade, emoji = "🥉 O'rcha", "💪"
     else:
-        grade, emoji = "📕 Yana harakat qiling", "📚"
+        grade, emoji = "📕 حاول مرة أخرى", "📚"
 
-    title = "Test to'xtatildi" if stopped_early else "Test yakunlandi!"
+    title = "تم إيقاف الاختبار" if stopped_early else "انتهى الاختبار!"
     early_line = (
-        f"⚠️ Erta to'xtatildi: *{answered_total}/{total}* savolga javob berildi\n\n"
+        f"⚠️ Er to'xtildi: *{answered_tol}/{tol}* سؤال تمت الإجابة عنه\n\n"
         if stopped_early
         else ""
     )
 
     rank_line = ""
     try:
-        rows = db.top_results(subject=state["subject"], limit=10000)
+        rows = db.top_results(subject=ste["subject"], limit=10000)
         for i, r in enumerate(rows, 1):
             if r["user_id"] == p["user_id"]:
-                rank_line = f"🏅 Joriy o'rningiz: *{i}* / {len(rows)}\n"
+                rank_line = f"🏅 ترتيبك الحالي: *{i}* / {len(rows)}\n"
                 break
     except Exception:
         pass
 
     best_line = ""
     try:
-        best = db.best_attempt(p["user_id"], subject=state["subject"])
+        best = db.best_attempt(p["user_id"], subject=ste["subject"])
         if best:
             best_pct = (best["correct"] / best["total"] * 100) if best["total"] else 0
             if best["correct"] > correct:
-                best_line = f"⭐ Eng yaxshi natijangiz: *{best['correct']}/{best['total']}* ({best_pct:.0f}%)\n"
+                best_line = f"⭐ أفضل نتيجة لك: *{best['correct']}/{best['total']}* ({best_pct:.0f}%)\n"
     except Exception:
         pass
 
     text = (
         f"{emoji} *{title}*\n"
         f"━━━━━━━━━━━━━━━━━━\n"
-        f"📘 Fan: *{state['subject']}*\n"
+        f"📘 المادة: *{ste['subject']}*\n"
         f"{early_line}"
-        f"📊 Natija: *{correct}/{total}* ({pct:.1f}%)\n\n"
-        f"✅ To'g'ri: {correct}\n"
-        f"❌ Noto'g'ri: {wrong}\n"
-        f"⏭ O'tkazib yuborilgan: {skipped}\n"
+        f"📊 النتيجة: *{correct}/{tol}* ({pct:.1f}%)\n\n"
+        f"✅ صحيح: {correct}\n"
+        f"❌ خطأ: {wrong}\n"
+        f"⏭ تم تخطيه: {skipped}\n"
         f"━━━━━━━━━━━━━━━━━━\n"
         f"{rank_line}"
         f"{best_line}"
         f"{grade}"
     )
-    stem = state.get("subject_stem", "")
+    stem = ste.get("subject_stem", "")
     kb = InlineKeyboardMarkup([
-        [InlineKeyboardButton("🔄 Qayta urinish", callback_data=f"begin:{stem}")],
-        [InlineKeyboardButton("🏆 Liderlar", callback_data="menu:top")],
-        [InlineKeyboardButton("🏠 Bosh menyu", callback_data="menu:home")],
+        [InlineKeyboardButton("🔄 Qay urinish", callback_data=f"begin:{stem}")],
+        [InlineKeyboardButton("🏆 🏆 المتصدرون", callback_data="menu:top")],
+        [InlineKeyboardButton("🏠 🏠 القائمة الرئيسية", callback_data="menu:home")],
     ])
     await context.bot.send_message(
         chat_id=chat_id, text=text, reply_markup=kb, parse_mode=ParseMode.MARKDOWN
     )
 
 
-async def _send_group_results(context, chat_id, state, total, stopped_early: bool = False) -> None:
-    parts = state["participants"]
+async def _send_group_results(context, chat_id, ste, tol, stopped_early: bool = False) -> None:
+    parts = ste["participants"]
     if not parts:
         await context.bot.send_message(
             chat_id=chat_id,
-            text=f"🏁 *Test to'xtatildi*\n\n📘 Fan: *{state['subject']}*\n\n🤷 Hech kim qatnashmadi.",
+            text=f"🏁 *تم إيقاف الاختبار*\n\n📘 المادة: *{ste['subject']}*\n\n🤷 لم يشارك أحد.",
             parse_mode=ParseMode.MARKDOWN,
         )
         return
@@ -767,33 +768,33 @@ async def _send_group_results(context, chat_id, state, total, stopped_early: boo
     )
     medals = ["🥇", "🥈", "🥉"] + ["🏅"] * 100
 
-    title = "Test to'xtatildi" if stopped_early else "Test yakunlandi!"
-    answered_q = state["idx"] if stopped_early else total
+    title = "تم إيقاف الاختبار" if stopped_early else "انتهى الاختبار!"
+    answered_q = ste["idx"] if stopped_early else tol
     progress_line = (
-        f"⚠️ Erta to'xtatildi: *{answered_q}/{total}* savol o'tildi"
+        f"⚠️ Er to'xtildi: *{answered_q}/{tol}* savol o'tildi"
         if stopped_early
-        else f"📝 Savollar: *{total}*"
+        else f"📝 الأسئلة: *{tol}*"
     )
 
     lines = [
         f"🏁 *{title}*",
         f"━━━━━━━━━━━━━━━━━━",
-        f"📘 Fan: *{state['subject']}*",
+        f"📘 المادة: *{ste['subject']}*",
         f"{progress_line}",
-        f"👥 Qatnashganlar: *{len(ranked)}*",
+        f"👥 المشاركون: *{len(ranked)}*",
         f"━━━━━━━━━━━━━━━━━━",
         f"",
-        f"🏆 *Liderlar:*",
+        f"🏆 *🏆 المتصدرون:*",
     ]
     for i, p in enumerate(ranked):
-        pct = (p["correct"] / total * 100) if total else 0
+        pct = (p["correct"] / tol * 100) if tol else 0
         name = (p["name"] or "User").replace("*", "").replace("_", " ").replace("`", "")
         lines.append(
-            f"{medals[i]} *{name}* — {p['correct']}/{total} ({pct:.0f}%)"
+            f"{medals[i]} *{name}* — {p['correct']}/{tol} ({pct:.0f}%)"
         )
 
     kb = InlineKeyboardMarkup([
-        [InlineKeyboardButton("🔄 Yana o'ynash", callback_data=f"begin:{state['subject_stem']}")],
+        [InlineKeyboardButton("🔄 العب مرة أخرى", callback_data=f"begin:{ste['subject_stem']}")],
     ])
     await context.bot.send_message(
         chat_id=chat_id,
@@ -804,10 +805,10 @@ async def _send_group_results(context, chat_id, state, total, stopped_early: boo
 
 
 async def _cancel_current_test(context: ContextTypes.DEFAULT_TYPE) -> bool:
-    """Silent cleanup — used when a new test is starting and we want to clear
-    any leftover state without showing a results screen."""
-    state = context.chat_data.get("test")
-    if not state:
+    """Silent cleanup — used when a new test is srting and we want to clear
+    any leftover ste without showing a results screen."""
+    ste = context.chat_data.get("test")
+    if not ste:
         return False
     await _finalize(context, context.chat_data, show_results=False)
     return True
@@ -815,26 +816,26 @@ async def _cancel_current_test(context: ContextTypes.DEFAULT_TYPE) -> bool:
 
 # ---------- pause / resume / stop controls ----------
 
-async def _can_control(update: Update, context: ContextTypes.DEFAULT_TYPE, state: dict) -> bool:
+async def _can_control(update: Update, context: ContextTypes.DEFAULT_TYPE, ste: dict) -> bool:
     user_id = update.effective_user.id
-    if not state.get("is_group"):
+    if not ste.get("is_group"):
         return True
-    if user_id == state.get("starter_user_id"):
+    if user_id == ste.get("srter_user_id"):
         return True
     try:
         member = await context.bot.get_chat_member(update.effective_chat.id, user_id)
-        return member.status in ("administrator", "creator")
+        return member.stus in ("administrator", "creator")
     except Exception:
         return False
 
 
 async def on_control(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     cq = update.callback_query
-    state = context.chat_data.get("test")
-    if not state:
+    ste = context.chat_data.get("test")
+    if not ste:
         await cq.answer("Faol test yo'q.", show_alert=True)
         return
-    if not await _can_control(update, context, state):
+    if not await _can_control(update, context, ste):
         await cq.answer(
             "⛔ Bu tugmani faqat testni boshlagan kishi yoki guruh admini bosishi mumkin.",
             show_alert=True,
@@ -843,23 +844,23 @@ async def on_control(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None
 
     action = cq.data.split(":", 1)[1]
     if action == "pause":
-        await _pause_quiz(context, state, cq)
+        await _pause_quiz(context, ste, cq)
     elif action == "resume":
-        await _resume_quiz(context, state, cq)
+        await _resume_quiz(context, ste, cq)
     elif action == "stop":
-        await _stop_quiz(context, state, cq)
+        await _stop_quiz(context, ste, cq)
 
 
-async def _pause_quiz(context: ContextTypes.DEFAULT_TYPE, state: dict, cq) -> None:
-    if state.get("paused"):
+async def _pause_quiz(context: ContextTypes.DEFAULT_TYPE, ste: dict, cq) -> None:
+    if ste.get("paused"):
         await cq.answer("Allaqachon pauza")
         return
-    await cq.answer("⏸ Pauza qilindi")
-    state["paused"] = True
-    _cancel_timer_jobs(state)
+    await cq.answer("⏸ إيقاف مؤقت qilindi")
+    ste["paused"] = True
+    _cancel_timer_jobs(ste)
 
-    chat_id = state["chat_id"]
-    msg_id = state.get("current_poll_msg_id")
+    chat_id = ste["chat_id"]
+    msg_id = ste.get("current_poll_msg_id")
     if msg_id:
         try:
             await context.bot.stop_poll(chat_id=chat_id, message_id=msg_id)
@@ -872,41 +873,41 @@ async def _pause_quiz(context: ContextTypes.DEFAULT_TYPE, state: dict, cq) -> No
         except Exception:
             pass
 
-    idx = state["idx"]
-    total = len(state["questions"])
+    idx = ste["idx"]
+    tol = len(ste["questions"])
     await context.bot.send_message(
         chat_id=chat_id,
         text=(
             f"⏸ *Test pauza qilindi*\n\n"
-            f"Joriy savol: *{idx + 1} / {total}*\n"
-            f"Davom etish uchun yuqoridagi ▶️ tugmasini bosing."
+            f"Joriy savol: *{idx + 1} / {tol}*\n"
+            f"متابعة uchun yuqoridagi ▶️ tugmasini bosing."
         ),
         parse_mode=ParseMode.MARKDOWN,
     )
 
 
-async def _resume_quiz(context: ContextTypes.DEFAULT_TYPE, state: dict, cq) -> None:
-    if not state.get("paused"):
+async def _resume_quiz(context: ContextTypes.DEFAULT_TYPE, ste: dict, cq) -> None:
+    if not ste.get("paused"):
         await cq.answer()
         return
     await cq.answer("▶️ Davom etmoqda...")
-    state["paused"] = False
+    ste["paused"] = False
     # Remove control buttons from the paused poll
-    msg_id = state.get("current_poll_msg_id")
+    msg_id = ste.get("current_poll_msg_id")
     if msg_id:
         try:
             await context.bot.edit_message_reply_markup(
-                chat_id=state["chat_id"], message_id=msg_id, reply_markup=None
+                chat_id=ste["chat_id"], message_id=msg_id, reply_markup=None
             )
         except Exception:
             pass
     await _send_quiz(context, context.chat_data)
 
 
-async def _stop_quiz(context: ContextTypes.DEFAULT_TYPE, state: dict, cq) -> None:
-    await cq.answer("⛔ Test to'xtatildi")
-    total = len(state["questions"])
-    stopped_early = state["idx"] < total
+async def _stop_quiz(context: ContextTypes.DEFAULT_TYPE, ste: dict, cq) -> None:
+    await cq.answer("⛔ تم إيقاف الاختبار")
+    tol = len(ste["questions"])
+    stopped_early = ste["idx"] < tol
     await _finalize(context, context.chat_data, show_results=True, stopped_early=stopped_early)
 
 
@@ -914,32 +915,32 @@ async def _stop_quiz(context: ContextTypes.DEFAULT_TYPE, state: dict, cq) -> Non
 
 async def _show_my_results(q, user_id: int) -> None:
     attempts = db.get_user_attempts(user_id, limit=10)
-    subj_stats = db.user_subject_stats(user_id)
-    if not attempts and not subj_stats:
+    subj_sts = db.user_subject_stats(user_id)
+    if not attempts and not subj_sts:
         await q.edit_message_text(
-            "📊 Sizda hali test natijalari yo'q.",
+            "📊 📊 ليست لديك نتائج اختبارات بعد.",
             reply_markup=back_kb(),
         )
         return
 
-    lines = ["📊 *Sizning natijalaringiz*", "━━━━━━━━━━━━━━━━━━"]
+    lines = ["📊 *📊 نتائجك*", "━━━━━━━━━━━━━━━━━━"]
 
-    if subj_stats:
-        lines.append("\n*📚 Fanlar bo'yicha:*\n")
-        for s in subj_stats:
+    if subj_sts:
+        lines.append("\n*📚 📚 النتائج حسب المواد:*\n")
+        for s in subj_sts:
             best = (s["best_pct"] or 0) * 100
             avg = (s["avg_pct"] or 0) * 100
             lines.append(
                 f"• *{s['subject']}*\n"
-                f"   Urinishlar: *{s['attempts']}* · Eng yaxshi: *{best:.0f}%* · O'rtacha: *{avg:.0f}%*"
+                f"   عدد المحاولات: *{s['attempts']}* · أفضل نتيجة: *{best:.0f}%* · O'rcha: *{avg:.0f}%*"
             )
 
     finished = [a for a in attempts if a["finished_at"]]
     if finished:
-        lines.append("\n*🕐 So'nggi urinishlar:*\n")
+        lines.append("\n*🕐 آخر المحاولات:*\n")
         for a in finished:
             pct = (a["correct"] / a["total"] * 100) if a["total"] else 0
-            date = a["started_at"][:10]
+            date = a["srted_at"][:10]
             lines.append(
                 f"• `{date}` — {a['subject']}: {a['correct']}/{a['total']} ({pct:.0f}%)"
             )
@@ -954,12 +955,12 @@ async def _show_my_results(q, user_id: int) -> None:
 async def _show_top(q) -> None:
     """Top-level leaderboard menu: pick a subject or view overall."""
     subjects = list_subjects()
-    rows = [[InlineKeyboardButton("🌐 Umumiy (barcha fanlar)", callback_data="top:all")]]
+    rows = [[InlineKeyboardButton("🌐 🌐 عام (جميع المواد)", callback_data="top:all")]]
     for name, path in subjects:
         rows.append([InlineKeyboardButton(f"📘 {name}", callback_data=f"top:{path.stem}")])
-    rows.append([InlineKeyboardButton("⬅️ Bosh menyu", callback_data="menu:home")])
+    rows.append([InlineKeyboardButton("⬅️ 🏠 القائمة الرئيسية", callback_data="menu:home")])
     await q.edit_message_text(
-        "🏆 *Liderlar tablosi*\n\nQaysi fan bo'yicha ko'rmoqchisiz?",
+        "🏆 *🏆 لوحة المتصدرين*\n\n📚 أي مادة تريد عرض نتائجها؟",
         reply_markup=InlineKeyboardMarkup(rows),
         parse_mode=ParseMode.MARKDOWN,
     )
@@ -973,20 +974,20 @@ async def on_top(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
 
     if arg == "all":
         rows = db.top_results(limit=15)
-        title = "🌐 Umumiy liderlar (barcha fanlar)"
+        title = "🌐 🏆 لوحة المتصدرين العامة (جميع المواد)"
         subject_filter = None
     else:
         path = SUBJECTS_DIR / f"{arg}.txt"
         display_name = arg.replace("_", " ").replace("-", " ").title()
         rows = db.top_results(subject=display_name, limit=15)
-        title = f"📘 {display_name} — liderlar"
+        title = f"📘 {display_name} — المتصدرون"
         subject_filter = display_name
 
     if not rows:
         await q.edit_message_text(
-            f"{title}\n\n🤷 Hozircha natijalar yo'q.",
+            f"{title}\n\n🤷 لا توجد نتائج حالياً.",
             reply_markup=InlineKeyboardMarkup([[
-                InlineKeyboardButton("⬅️ Orqaga", callback_data="menu:top")
+                InlineKeyboardButton("⬅️ رجوع", callback_data="menu:top")
             ]]),
         )
         return
@@ -1022,15 +1023,15 @@ async def on_top(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     lines.append("━━━━━━━━━━━━━━━━━━")
     if user_entry:
         pct = (user_entry["correct"] / user_entry["total"] * 100) if user_entry["total"] else 0
-        lines.append(f"🎯 Sizning eng yaxshi o'rningiz:  *{user_rank}*  ({user_entry['correct']}/{user_entry['total']}, {pct:.0f}%)")
+        lines.append(f"🎯 أفضل ترتيب حققته:  *{user_rank}*  ({user_entry['correct']}/{user_entry['total']}, {pct:.0f}%)")
     else:
-        lines.append("🎯 Siz hali test topshirmagansiz.")
+        lines.append("🎯 لم تشارك في أي اختبار بعد.")
 
     await q.edit_message_text(
         "\n".join(lines),
         reply_markup=InlineKeyboardMarkup([[
-            InlineKeyboardButton("⬅️ Liderlar", callback_data="menu:top"),
-            InlineKeyboardButton("🏠 Bosh menyu", callback_data="menu:home"),
+            InlineKeyboardButton("⬅️ 🏆 المتصدرون", callback_data="menu:top"),
+            InlineKeyboardButton("🏠 🏠 القائمة الرئيسية", callback_data="menu:home"),
         ]]),
         parse_mode=ParseMode.MARKDOWN,
     )
@@ -1041,10 +1042,10 @@ async def on_top(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
 async def cmd_admin(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     user = update.effective_user
     if not is_admin(user.id):
-        await update.message.reply_text("⛔ Sizda admin huquqi yo'q.")
+        await update.message.reply_text("⛔ ليس لديك صلاحيات المشرف.")
         return
     await update.message.reply_text(
-        f"👑 *Admin panel*\nUser ID: `{user.id}`",
+        f"👑 *👨‍💻 لوحة الإدارة*\nUser ID: `{user.id}`",
         reply_markup=_admin_kb(),
         parse_mode=ParseMode.MARKDOWN,
     )
@@ -1052,13 +1053,13 @@ async def cmd_admin(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
 
 def _admin_kb() -> InlineKeyboardMarkup:
     return InlineKeyboardMarkup([
-        [InlineKeyboardButton("📊 Statistika", callback_data="admin:stats")],
-        [InlineKeyboardButton("👥 Foydalanuvchilar", callback_data="admin:users")],
-        [InlineKeyboardButton("🏆 Eng yaxshi natijalar", callback_data="admin:top")],
-        [InlineKeyboardButton("📚 Fanlar ro'yxati", callback_data="admin:subjects")],
-        [InlineKeyboardButton("➕ Yangi fan qo'shish", callback_data="admin:addsubject")],
-        [InlineKeyboardButton("📢 Hammaga xabar yuborish", callback_data="admin:broadcast")],
-        [InlineKeyboardButton("⬅️ Bosh menyu", callback_data="menu:home")],
+        [InlineKeyboardButton("📊 Stistika", callback_data="admin:sts")],
+        [InlineKeyboardButton("👥 المستخدمون", callback_data="admin:users")],
+        [InlineKeyboardButton("🏆 أفضل النتائج", callback_data="admin:top")],
+        [InlineKeyboardButton("📚 قائمة المواد", callback_data="admin:subjects")],
+        [InlineKeyboardButton("➕ إضافة مادة جديدة", callback_data="admin:addsubject")],
+        [InlineKeyboardButton("📢 إرسال رسالة للجميع", callback_data="admin:broadcast")],
+        [InlineKeyboardButton("⬅️ 🏠 القائمة الرئيسية", callback_data="menu:home")],
     ])
 
 
@@ -1066,63 +1067,63 @@ async def on_admin(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     q = update.callback_query
     user = update.effective_user
     if not is_admin(user.id):
-        await q.answer("⛔ Admin emas", show_alert=True)
+        await q.answer("⛔ لست مشرفاً.", show_alert=True)
         return
     await q.answer()
     action = q.data.split(":", 1)[1]
 
     if action == "home":
         await q.edit_message_text(
-            f"👑 *Admin panel*\nUser ID: `{user.id}`",
+            f"👑 *👨‍💻 لوحة الإدارة*\nUser ID: `{user.id}`",
             reply_markup=_admin_kb(),
             parse_mode=ParseMode.MARKDOWN,
         )
 
-    elif action == "stats":
-        s = db.stats_overview()
-        per_subj = "\n".join(f"  • {n}: {c} marta" for n, c in s["per_subject"]) or "  (yo'q)"
+    elif action == "sts":
+        s = db.sts_overview()
+        per_subj = "\n".join(f"  • {n}: {c} mar" for n, c in s["per_subject"]) or "  (لا يوجد)"
         text = (
-            f"📊 *Statistika*\n\n"
-            f"👥 Foydalanuvchilar: *{s['users']}*\n"
-            f"📝 Tugatilgan testlar: *{s['attempts']}*\n"
-            f"📈 O'rtacha ball: *{s['avg_score']*100:.1f}%*\n\n"
-            f"*Fanlar bo'yicha:*\n{per_subj}"
+            f"📊 *Stistika*\n\n"
+            f"👥 المستخدمون: *{s['users']}*\n"
+            f"📝 الاختبارات المكتملة: *{s['attempts']}*\n"
+            f"📈 O'rcha ball: *{s['avg_score']*100:.1f}%*\n\n"
+            f"*📚 النتائج حسب المواد:*\n{per_subj}"
         )
         await q.edit_message_text(text, reply_markup=_admin_back_kb(), parse_mode=ParseMode.MARKDOWN)
 
     elif action == "users":
         users = db.list_users(limit=30)
         if not users:
-            await q.edit_message_text("Foydalanuvchilar yo'q.", reply_markup=_admin_back_kb())
+            await q.edit_message_text("المستخدمون yo'q.", reply_markup=_admin_back_kb())
             return
-        lines = ["👥 *So'nggi foydalanuvchilar (30 tasi):*", "Profil ko'rish uchun tugmani bosing.\n"]
+        lines = ["👥 *So'nggi foydalanuvchilar (30 si):*", "اضغط على الزر لعرض الملف الشخصي.\n"]
         rows = []
         for u in users:
             uname = f"@{u['username']}" if u["username"] else "—"
             lines.append(f"• `{u['user_id']}` · {u['first_name'] or '—'} · {uname} · testlar: {u['attempts_count']}")
             label = f"👤 {u['first_name'] or u['user_id']} ({u['attempts_count']})"
             rows.append([InlineKeyboardButton(label[:60], callback_data=f"admin:u:{u['user_id']}")])
-        rows.append([InlineKeyboardButton("⬅️ Admin panel", callback_data="admin:home")])
+        rows.append([InlineKeyboardButton("⬅️ 👨‍💻 لوحة الإدارة", callback_data="admin:home")])
         await q.edit_message_text(
             "\n".join(lines),
             reply_markup=InlineKeyboardMarkup(rows),
             parse_mode=ParseMode.MARKDOWN,
         )
 
-    elif action.startswith("u:"):
+    elif action.srtswith("u:"):
         try:
-            target_uid = int(action.split(":", 1)[1])
+            rget_uid = int(action.split(":", 1)[1])
         except ValueError:
-            await q.edit_message_text("❌ Noto'g'ri ID.", reply_markup=_admin_back_kb())
+            await q.edit_message_text("❌ معرّف المستخدم غير صحيح.", reply_markup=_admin_back_kb())
             return
-        await _admin_user_profile(q, target_uid)
+        await _admin_user_profile(q, rget_uid)
 
     elif action == "top":
         rows = db.top_results(limit=20)
         if not rows:
             await q.edit_message_text("Natijalar yo'q.", reply_markup=_admin_back_kb())
             return
-        lines = ["🏆 *Eng yaxshi natijalar (20):*\n"]
+        lines = ["🏆 *أفضل النتائج (20):*\n"]
         for i, r in enumerate(rows, 1):
             pct = (r["correct"] / r["total"] * 100) if r["total"] else 0
             name = r["first_name"] or (f"@{r['username']}" if r["username"] else f"#{r['user_id']}")
@@ -1135,40 +1136,40 @@ async def on_admin(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
             await q.edit_message_text("Fanlar yo'q.", reply_markup=_admin_back_kb())
             return
         rows = []
-        lines = ["📚 *Fanlar:*", "Boshqarish uchun tugmani bosing.\n"]
+        lines = ["📚 *المواد:*", "اضغط على الزر للإدارة.\n"]
         for name, path in subjects:
             try:
                 qs = load_subject(path)
-                lines.append(f"• *{name}* — {len(qs)} ta savol")
+                lines.append(f"• *{name}* — {len(qs)}  savol")
             except Exception as e:
-                lines.append(f"• *{name}* — ❌ xato: {e}")
+                lines.append(f"• *{name}* — ❌ خطأ: {e}")
             rows.append([InlineKeyboardButton(f"📘 {name}", callback_data=f"admin:sub:{path.stem}")])
-        rows.append([InlineKeyboardButton("⬅️ Admin panel", callback_data="admin:home")])
+        rows.append([InlineKeyboardButton("⬅️ 👨‍💻 لوحة الإدارة", callback_data="admin:home")])
         await q.edit_message_text(
             "\n".join(lines),
             reply_markup=InlineKeyboardMarkup(rows),
             parse_mode=ParseMode.MARKDOWN,
         )
 
-    elif action.startswith("sub:"):
+    elif action.srtswith("sub:"):
         stem = action.split(":", 1)[1]
         await _admin_subject_card(q, stem)
 
-    elif action.startswith("subdel:"):
+    elif action.srtswith("subdel:"):
         stem = action.split(":", 1)[1]
         await _admin_subject_delete_confirm(q, stem)
 
-    elif action.startswith("subdelyes:"):
+    elif action.srtswith("subdelyes:"):
         stem = action.split(":", 1)[1]
         await _admin_subject_delete_execute(q, stem)
 
-    elif action.startswith("subren:"):
+    elif action.srtswith("subren:"):
         stem = action.split(":", 1)[1]
         context.user_data["awaiting_subject_rename"] = stem
         await q.edit_message_text(
-            f"✏️ Yangi fayl nomini yuboring (kengaytmasiz, faqat lotin harflari va `_`).\n\n"
+            f"✏️ أرسل اسم الملف الجديد (kengaytmasiz, faqat lotin harflari va `_`).\n\n"
             f"Hozirgi: `{stem}`\n\n"
-            f"Bekor qilish uchun /cancel yuboring.",
+            f"إلغاء uchun /cancel yuboring.",
             reply_markup=_admin_back_kb(),
             parse_mode=ParseMode.MARKDOWN,
         )
@@ -1176,7 +1177,7 @@ async def on_admin(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     elif action == "addsubject":
         context.user_data["awaiting_subject_file"] = True
         await q.edit_message_text(
-            "📤 Yangi fan qo'shish uchun *.txt* faylni yuboring.\n\n"
+            "📤 إضافة مادة جديدة uchun *.txt* faylni yuboring.\n\n"
             "Fayl formati: oddiy matn, savol raqami `1.` bilan boshlanadi, "
             "to'g'ri javob `+` belgisi bilan belgilanadi.\n\n"
             "Fayl nomi fan nomi sifatida ishlatiladi (masalan `matematika.txt`).",
@@ -1187,30 +1188,30 @@ async def on_admin(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     elif action == "broadcast":
         context.user_data["awaiting_broadcast"] = True
         await q.edit_message_text(
-            "📢 Hammaga yubormoqchi bo'lgan xabaringizni yozing.\n\n"
-            "Bekor qilish uchun /cancel yuboring.",
+            "📢 اكتب الرسالة التي تريد إرسالها للجميع.\n\n"
+            "إلغاء uchun /cancel yuboring.",
             reply_markup=_admin_back_kb(),
         )
 
 
 def _admin_back_kb() -> InlineKeyboardMarkup:
     return InlineKeyboardMarkup([
-        [InlineKeyboardButton("⬅️ Admin panel", callback_data="admin:home")],
+        [InlineKeyboardButton("⬅️ 👨‍💻 لوحة الإدارة", callback_data="admin:home")],
     ])
 
 
 async def _admin_subject_card(q, stem: str) -> None:
     path = SUBJECTS_DIR / f"{stem}.txt"
     if not path.exists():
-        await q.edit_message_text("❌ Fan topilmadi.", reply_markup=_admin_back_kb())
+        await q.edit_message_text("❌ لم يتم العثور على المادة.", reply_markup=_admin_back_kb())
         return
     display_name = stem.replace("_", " ").replace("-", " ").title()
     try:
         qs = load_subject(path)
-        count_line = f"📝 Savollar soni: *{len(qs)}*"
+        count_line = f"📝 عدد الأسئلة: *{len(qs)}*"
     except Exception as e:
-        count_line = f"❌ Xato: {e}"
-    size_kb = path.stat().st_size / 1024
+        count_line = f"❌ خطأ: {e}"
+    size_kb = path.st().st_size / 1024
     text = (
         f"📘 *{display_name}*\n"
         f"━━━━━━━━━━━━━━━\n"
@@ -1219,9 +1220,9 @@ async def _admin_subject_card(q, stem: str) -> None:
         f"{count_line}"
     )
     rows = [
-        [InlineKeyboardButton("✏️ Qayta nomlash", callback_data=f"admin:subren:{stem}")],
-        [InlineKeyboardButton("🗑 O'chirish", callback_data=f"admin:subdel:{stem}")],
-        [InlineKeyboardButton("⬅️ Fanlar ro'yxati", callback_data="admin:subjects")],
+        [InlineKeyboardButton("✏️ Qay nomlash", callback_data=f"admin:subren:{stem}")],
+        [InlineKeyboardButton("🗑 حذف", callback_data=f"admin:subdel:{stem}")],
+        [InlineKeyboardButton("⬅️ قائمة المواد", callback_data="admin:subjects")],
     ]
     await q.edit_message_text(
         text,
@@ -1233,15 +1234,15 @@ async def _admin_subject_card(q, stem: str) -> None:
 async def _admin_subject_delete_confirm(q, stem: str) -> None:
     path = SUBJECTS_DIR / f"{stem}.txt"
     if not path.exists():
-        await q.edit_message_text("❌ Fan topilmadi.", reply_markup=_admin_back_kb())
+        await q.edit_message_text("❌ لم يتم العثور على المادة.", reply_markup=_admin_back_kb())
         return
     display_name = stem.replace("_", " ").replace("-", " ").title()
     rows = [
-        [InlineKeyboardButton("✅ Ha, o'chirish", callback_data=f"admin:subdelyes:{stem}")],
-        [InlineKeyboardButton("❌ Bekor qilish", callback_data=f"admin:sub:{stem}")],
+        [InlineKeyboardButton("✅ نعم، احذف", callback_data=f"admin:subdelyes:{stem}")],
+        [InlineKeyboardButton("❌ إلغاء", callback_data=f"admin:sub:{stem}")],
     ]
     await q.edit_message_text(
-        f"⚠️ *{display_name}* fanini o'chirmoqchimisiz?\n\n"
+        f"⚠️ *{display_name}* هل تريد حذف المادة؟\n\n"
         f"Fayl o'chiriladi. Eski testlardagi natijalar saqlanib qoladi.",
         reply_markup=InlineKeyboardMarkup(rows),
         parse_mode=ParseMode.MARKDOWN,
@@ -1251,16 +1252,16 @@ async def _admin_subject_delete_confirm(q, stem: str) -> None:
 async def _admin_subject_delete_execute(q, stem: str) -> None:
     path = SUBJECTS_DIR / f"{stem}.txt"
     if not path.exists():
-        await q.edit_message_text("❌ Fan allaqachon o'chirilgan.", reply_markup=_admin_back_kb())
+        await q.edit_message_text("❌ تم حذف المادة بالفعل.", reply_markup=_admin_back_kb())
         return
     try:
         path.unlink()
     except Exception as e:
-        await q.edit_message_text(f"❌ Xato: {e}", reply_markup=_admin_back_kb())
+        await q.edit_message_text(f"❌ خطأ: {e}", reply_markup=_admin_back_kb())
         return
     display_name = stem.replace("_", " ").replace("-", " ").title()
     await q.edit_message_text(
-        f"🗑 *{display_name}* o'chirildi.",
+        f"🗑 *{display_name}* تم الحذف.",
         reply_markup=_admin_back_kb(),
         parse_mode=ParseMode.MARKDOWN,
     )
@@ -1269,15 +1270,15 @@ async def _admin_subject_delete_execute(q, stem: str) -> None:
 async def _admin_user_profile(q, user_id: int) -> None:
     u = db.get_user(user_id)
     if not u:
-        await q.edit_message_text("❌ Foydalanuvchi topilmadi.", reply_markup=_admin_back_kb())
+        await q.edit_message_text("❌ لم يتم العثور على المستخدم.", reply_markup=_admin_back_kb())
         return
     attempts = db.get_user_attempts(user_id, limit=10)
-    subj_stats = db.user_subject_stats(user_id)
+    subj_sts = db.user_subject_stats(user_id)
 
     uname = f"@{u['username']}" if u["username"] else "—"
     full_name = " ".join(filter(None, [u["first_name"], u["last_name"]])) or "—"
     lines = [
-        f"👤 *Foydalanuvchi profili*",
+        f"👤 *ملف المستخدم*",
         f"━━━━━━━━━━━━━━━",
         f"ID: `{user_id}`",
         f"Ism: *{full_name}*",
@@ -1286,31 +1287,31 @@ async def _admin_user_profile(q, user_id: int) -> None:
         f"Timer: {u['timer_seconds']} s",
     ]
 
-    if subj_stats:
-        lines.append("\n*📚 Fanlar bo'yicha:*")
-        for s in subj_stats:
+    if subj_sts:
+        lines.append("\n*📚 📚 النتائج حسب المواد:*")
+        for s in subj_sts:
             best = (s["best_pct"] or 0) * 100
             avg = (s["avg_pct"] or 0) * 100
             lines.append(
-                f"• {s['subject']} — urinishlar: *{s['attempts']}*, "
-                f"eng yaxshi: *{best:.0f}%*, o'rtacha: *{avg:.0f}%*"
+                f"• {s['subject']} — المحاولات: *{s['attempts']}*, "
+                f"أفضل نتيجة: *{best:.0f}%*, المعدل: *{avg:.0f}%*"
             )
     else:
         lines.append("\n_Tugatilgan testlar yo'q._")
 
     finished = [a for a in attempts if a["finished_at"]]
     if finished:
-        lines.append("\n*🕐 So'nggi urinishlar:*")
+        lines.append("\n*🕐 آخر المحاولات:*")
         for a in finished[:5]:
             pct = (a["correct"] / a["total"] * 100) if a["total"] else 0
-            date = a["started_at"][:10]
+            date = a["srted_at"][:10]
             lines.append(f"• `{date}` · {a['subject']}: {a['correct']}/{a['total']} ({pct:.0f}%)")
 
     await q.edit_message_text(
         "\n".join(lines),
         reply_markup=InlineKeyboardMarkup([
-            [InlineKeyboardButton("⬅️ Foydalanuvchilar", callback_data="admin:users")],
-            [InlineKeyboardButton("🏠 Admin panel", callback_data="admin:home")],
+            [InlineKeyboardButton("⬅️ المستخدمون", callback_data="admin:users")],
+            [InlineKeyboardButton("🏠 👨‍💻 لوحة الإدارة", callback_data="admin:home")],
         ]),
         parse_mode=ParseMode.MARKDOWN,
     )
@@ -1324,13 +1325,13 @@ async def on_document(update: Update, context: ContextTypes.DEFAULT_TYPE) -> Non
 
     doc = update.message.document
     if not doc.file_name.lower().endswith(".txt"):
-        await update.message.reply_text("❌ Faqat .txt fayl qabul qilinadi.")
+        await update.message.reply_text("❌ يُقبل فقط ملف بصيغة .txt.")
         return
 
     safe_name = "".join(c if c.isalnum() or c in "._-" else "_" for c in doc.file_name)
     dest = SUBJECTS_DIR / safe_name
     if dest.exists():
-        await update.message.reply_text(f"⚠️ `{safe_name}` allaqachon mavjud. Avval o'chiring yoki nomini o'zgartiring.")
+        await update.message.reply_text(f"⚠️ `{safe_name}` موجود بالفعل. احذفه أولاً أو غيّر اسمه.")
         return
 
     file = await doc.get_file()
@@ -1341,17 +1342,17 @@ async def on_document(update: Update, context: ContextTypes.DEFAULT_TYPE) -> Non
         qs = load_subject(dest)
         if not qs:
             dest.unlink()
-            await update.message.reply_text("❌ Faylda savol topilmadi. Fayl o'chirildi.")
+            await update.message.reply_text("❌ لم يتم العثور على أسئلة في الملف. تم حذف الملف.")
             return
         context.user_data["awaiting_subject_file"] = False
         await update.message.reply_text(
-            f"✅ *{safe_name}* qo'shildi.\nSavollar soni: *{len(qs)}*",
+            f"✅ *{safe_name}* تمت الإضافة.\nعدد الأسئلة: *{len(qs)}*",
             parse_mode=ParseMode.MARKDOWN,
             reply_markup=main_menu_kb(user.id),
         )
     except Exception as e:
         dest.unlink(missing_ok=True)
-        await update.message.reply_text(f"❌ Faylni o'qib bo'lmadi: {e}")
+        await update.message.reply_text(f"❌ تعذرت قراءة الملف: {e}")
 
 
 async def on_text(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
@@ -1364,12 +1365,12 @@ async def on_text(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
         context.user_data["awaiting_subject_rename"] = None
         new_stem = "".join(c if c.isalnum() or c in "_-" else "_" for c in text.strip())
         if not new_stem:
-            await update.message.reply_text("❌ Nom bo'sh. Bekor qilindi.", reply_markup=main_menu_kb(user.id))
+            await update.message.reply_text("❌ الاسم فارغ. تم الإلغاء.", reply_markup=main_menu_kb(user.id))
             return
         old_path = SUBJECTS_DIR / f"{old_stem}.txt"
         new_path = SUBJECTS_DIR / f"{new_stem}.txt"
         if not old_path.exists():
-            await update.message.reply_text("❌ Eski fayl topilmadi.", reply_markup=main_menu_kb(user.id))
+            await update.message.reply_text("❌ لم يتم العثور على الملف القديم.", reply_markup=main_menu_kb(user.id))
             return
         if new_path.exists():
             await update.message.reply_text(f"⚠️ `{new_stem}.txt` allaqachon mavjud.", parse_mode=ParseMode.MARKDOWN)
@@ -1377,10 +1378,10 @@ async def on_text(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
         try:
             old_path.rename(new_path)
         except Exception as e:
-            await update.message.reply_text(f"❌ Xato: {e}")
+            await update.message.reply_text(f"❌ خطأ: {e}")
             return
         await update.message.reply_text(
-            f"✅ Qayta nomlandi: `{old_stem}.txt` → `{new_stem}.txt`",
+            f"✅ Qay nomlandi: `{old_stem}.txt` → `{new_stem}.txt`",
             parse_mode=ParseMode.MARKDOWN,
             reply_markup=main_menu_kb(user.id),
         )
@@ -1399,10 +1400,10 @@ async def on_text(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
                 failed += 1
             await asyncio.sleep(0.05)
         await update.message.reply_text(
-            f"✅ Yuborildi: {sent}\n❌ Xato: {failed}",
+            f"✅ تم الإرسال: {sent}\n❌ خطأ: {failed}",
             reply_markup=main_menu_kb(user.id),
         )
         return
 
     # default: show menu
-    await update.message.reply_text("Bosh menyu:", reply_markup=main_menu_kb(user.id))
+    await update.message.reply_text("🏠 القائمة الرئيسية:", reply_markup=main_menu_kb(user.id))

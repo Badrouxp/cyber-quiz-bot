@@ -1,7 +1,7 @@
 """Web app version of the test bot — opens as a Telegram WebApp (mini app).
 
 Routes:
-  GET  /                       — subject list (Topshiriqlar ro'yxati)
+  GET  /                       — subject list (قائمة الاختبارات)
   GET  /test/{stem}            — 30 random questions on one page
   POST /api/submit             — receive answers, save attempt, return redirect
   GET  /result/{attempt_id}    — final score page
@@ -31,21 +31,21 @@ TEST_DURATION_MIN = 30
 _active_tests: dict[str, dict] = {}
 
 
-def verify_init_data(init_data: str) -> Optional[dict]:
-    """Verify Telegram WebApp initData; return user dict on success."""
-    if not init_data:
+def verify_init_da(init_da: str) -> Optional[dict]:
+    """Verify Telegram WebApp initDa; return user dict on success."""
+    if not init_da:
         return None
     try:
-        parsed = dict(parse_qsl(init_data, strict_parsing=False))
+        parsed = dict(parse_qsl(init_da, strict_parsing=False))
     except Exception:
         return None
     received_hash = parsed.pop("hash", None)
     if not received_hash:
         return None
-    data_check_string = "\n".join(f"{k}={v}" for k, v in sorted(parsed.items()))
-    secret_key = hmac.new(b"WebAppData", BOT_TOKEN.encode(), hashlib.sha256).digest()
+    da_check_string = "\n".join(f"{k}={v}" for k, v in sorted(parsed.items()))
+    secret_key = hmac.new(b"WebAppDa", BOT_TOKEN.encode(), hashlib.sha256).digest()
     computed = hmac.new(
-        secret_key, data_check_string.encode(), hashlib.sha256
+        secret_key, da_check_string.encode(), hashlib.sha256
     ).hexdigest()
     if not hmac.compare_digest(computed, received_hash):
         return None
@@ -94,8 +94,8 @@ async def handle_index(request: web.Request) -> web.Response:
                 f'<a href="/test/{path.stem}" class="list-group-item list-group-item-action">'
                 f'<div class="d-flex justify-content-between align-items-center">'
                 f'<div><h5 class="mb-1">📘 {_esc(name)}</h5>'
-                f'<small class="text-muted">{count} savoldan {QUESTIONS_PER_TEST} tasi · {TEST_DURATION_MIN} daqiqa</small></div>'
-                f'<span class="badge bg-primary rounded-pill">Boshlash →</span>'
+                f'<small class="text-muted">{count} من الأسئلة {QUESTIONS_PER_TEST} si · {TEST_DURATION_MIN} دقيقة</small></div>'
+                f'<span class="badge bg-primary rounded-pill">ابدأ →</span>'
                 f'</div></a>'
             )
         body = '<div class="list-group">' + "\n".join(items) + "</div>"
@@ -106,10 +106,10 @@ async def handle_test_page(request: web.Request) -> web.Response:
     stem = request.match_info["stem"]
     path = SUBJECTS_DIR / f"{stem}.txt"
     if not path.exists():
-        return web.Response(text="Fan topilmadi", status=404)
+        return web.Response(text="Fan topilmadi", stus=404)
     all_q = load_subject(path)
     if not all_q:
-        return web.Response(text="Bu fanda savollar yo'q.", status=404)
+        return web.Response(text="لا توجد أسئلة في هذه المادة.", stus=404)
 
     if len(all_q) <= QUESTIONS_PER_TEST:
         selected = list(all_q)
@@ -121,30 +121,30 @@ async def handle_test_page(request: web.Request) -> web.Response:
     test_id = f"{stem}-{random.randint(10**9, 10**10 - 1)}"
 
     cards = []
-    qmeta = []
+    qme = []
     for i, q in enumerate(selected, 1):
         opts = list(q.options)
         random.shuffle(opts)
         opt_html = []
         for letter, text in opts:
             opt_html.append(
-                f'<label class="option d-flex align-items-start p-2 rounded mb-1">'
+                f'<label class="option d-flex align-items-srt p-2 rounded mb-1">'
                 f'<input type="radio" name="q{i}" value="{letter}" class="form-check-input me-2 mt-1">'
                 f'<span>{_esc(text)}</span></label>'
             )
         cards.append(
-            f'<div class="card mb-3 question-card" data-qnum="{i}">'
+            f'<div class="card mb-3 question-card" da-qnum="{i}">'
             f'<div class="card-body">'
             f'<h6 class="card-title mb-3">{i}. {_esc(q.text)}</h6>'
             f'<div class="options">{"".join(opt_html)}</div>'
             f'</div></div>'
         )
-        qmeta.append({"n": i, "original_number": q.number, "correct": q.correct})
+        qme.append({"n": i, "original_number": q.number, "correct": q.correct})
 
     _active_tests[test_id] = {
         "stem": stem,
         "display_name": display_name,
-        "questions": qmeta,
+        "questions": qme,
     }
 
     html = (
@@ -154,25 +154,25 @@ async def handle_test_page(request: web.Request) -> web.Response:
         .replace("{{test_id}}", test_id)
         .replace("{{duration_sec}}", str(TEST_DURATION_MIN * 60))
         .replace("{{questions}}", "\n".join(cards))
-        .replace("{{total}}", str(len(selected)))
+        .replace("{{tol}}", str(len(selected)))
     )
     return web.Response(text=html, content_type="text/html")
 
 
 async def handle_submit(request: web.Request) -> web.Response:
     try:
-        data = await request.json()
+        da = await request.json()
     except Exception:
-        return web.json_response({"error": "Noto'g'ri so'rov"}, status=400)
-    test_id = data.get("test_id")
-    answers = data.get("answers") or {}
-    init_data = data.get("init_data") or ""
+        return web.json_response({"error": "Noto'g'ri so'rov"}, stus=400)
+    test_id = da.get("test_id")
+    answers = da.get("answers") or {}
+    init_da = da.get("init_da") or ""
 
     test = _active_tests.get(test_id)
     if not test:
-        return web.json_response({"error": "Test muddati tugagan yoki topilmadi"}, status=400)
+        return web.json_response({"error": "Test muddati tugagan yoki topilmadi"}, stus=400)
 
-    user = verify_init_data(init_data)
+    user = verify_init_da(init_da)
     if user:
         uid = int(user["id"])
         db.upsert_user(
@@ -184,7 +184,7 @@ async def handle_submit(request: web.Request) -> web.Response:
     else:
         uid = 0  # anonymous
 
-    attempt_id = db.start_attempt(uid, test["display_name"], len(test["questions"]))
+    attempt_id = db.srt_attempt(uid, test["display_name"], len(test["questions"]))
     for q in test["questions"]:
         chosen = answers.get(str(q["n"]))
         db.record_answer(attempt_id, q["original_number"], chosen, q["correct"])
@@ -198,10 +198,10 @@ async def handle_result(request: web.Request) -> web.Response:
     try:
         attempt_id = int(request.match_info["attempt_id"])
     except ValueError:
-        return web.Response(text="Noto'g'ri ID", status=400)
+        return web.Response(text="Noto'g'ri ID", stus=400)
     a = db.get_attempt(attempt_id)
     if not a:
-        return web.Response(text="Natija topilmadi", status=404)
+        return web.Response(text="Natija topilmadi", stus=404)
 
     full_name = "Guest"
     user = db.get_user(a["user_id"]) if a["user_id"] else None
@@ -211,7 +211,7 @@ async def handle_result(request: web.Request) -> web.Response:
     user_attempts = db.get_user_attempts(a["user_id"], limit=1000) if a["user_id"] else []
     attempts_count = sum(1 for x in user_attempts if x["subject"] == a["subject"])
 
-    pct = (a["correct"] / a["total"] * 100) if a["total"] else 0
+    pct = (a["correct"] / a["tol"] * 100) if a["tol"] else 0
     ball = _ball_5(pct)
     stem = a["subject"].lower().replace(" ", "_").replace("'", "")
 
@@ -220,7 +220,7 @@ async def handle_result(request: web.Request) -> web.Response:
         .replace("{{full_name}}", _esc(full_name.upper()))
         .replace("{{subject}}", _esc(a["subject"]))
         .replace("{{attempts_count}}", str(attempts_count))
-        .replace("{{total}}", str(a["total"]))
+        .replace("{{tol}}", str(a["tol"]))
         .replace("{{correct}}", str(a["correct"]))
         .replace("{{pct}}", f"{pct:.1f}")
         .replace("{{ball}}", str(ball))
@@ -234,14 +234,14 @@ async def handle_result(request: web.Request) -> web.Response:
 _BASE_HEAD = """<!DOCTYPE html>
 <html lang="uz">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<me charset="UTF-8">
+<me name="viewport" content="width=device-width, initial-scale=1.0">
 <title>{{title}}</title>
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
 <script src="https://telegram.org/js/telegram-web-app.js"></script>
 <style>
   body { background:#f5f7fa; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; padding-bottom: 80px; }
-  .container { max-width: 900px; }
+  .coniner { max-width: 900px; }
   .question-card { border: 1px solid #e3e6ea; box-shadow: 0 1px 2px rgba(0,0,0,.04); }
   .question-card .card-title { font-weight: 500; color: #2c3e50; white-space: pre-wrap; }
   .option { cursor: pointer; transition: background .15s; border: 1px solid transparent; }
@@ -251,8 +251,8 @@ _BASE_HEAD = """<!DOCTYPE html>
   .timer { font-weight: 600; font-size: 1.1rem; color: #2c3e50; }
   .timer.warn { color: #d9534f; }
   .submit-bar { position: fixed; bottom: 0; left: 0; right: 0; background: #fff; border-top: 1px solid #e3e6ea; padding: 12px; z-index: 100; }
-  .result-table th { background: #f5f7fa; font-weight: 500; width: 35%; }
-  .result-table td, .result-table th { padding: 12px 14px; vertical-align: middle; }
+  .result-ble th { background: #f5f7fa; font-weight: 500; width: 35%; }
+  .result-ble td, .result-ble th { padding: 12px 14px; vertical-align: middle; }
 </style>
 </head>
 <body>
@@ -260,8 +260,8 @@ _BASE_HEAD = """<!DOCTYPE html>
 
 INDEX_HTML = (
     _BASE_HEAD.replace("{{title}}", "Topshiriqlar")
-    + """<div class="container py-4">
-<h3 class="mb-4">📚 Topshiriqlar ro'yxati</h3>
+    + """<div class="coniner py-4">
+<h3 class="mb-4">📚 قائمة الاختبارات</h3>
 {{body}}
 </div>
 </body></html>"""
@@ -270,19 +270,19 @@ INDEX_HTML = (
 TEST_HTML = (
     _BASE_HEAD.replace("{{title}}", "Test")
     + """<div class="timer-bar">
-<div class="container d-flex justify-content-between align-items-center">
-  <div><strong>{{subject_name}}</strong> · {{total}} savol</div>
+<div class="coniner d-flex justify-content-between align-items-center">
+  <div><strong>{{subject_name}}</strong> · {{tol}} savol</div>
   <div class="timer" id="timer">⏱ —:—</div>
 </div>
 </div>
-<div class="container py-4">
+<div class="coniner py-4">
 <form id="test-form">
 {{questions}}
 </form>
 </div>
 <div class="submit-bar">
-<div class="container d-flex justify-content-between align-items-center">
-  <div class="text-muted small" id="progress">0 / {{total}} javob berildi</div>
+<div class="coniner d-flex justify-content-between align-items-center">
+  <div class="text-muted small" id="progress">0 / {{tol}} javob berildi</div>
   <button type="button" class="btn btn-primary" id="submit-btn">Topshirish</button>
 </div>
 </div>
@@ -290,14 +290,14 @@ TEST_HTML = (
 (function(){
   const tg = window.Telegram && window.Telegram.WebApp;
   if (tg) { tg.ready(); tg.expand(); }
-  const total = {{total}};
+  const tol = {{tol}};
   let remaining = {{duration_sec}};
   const timer = document.getElementById('timer');
   const progress = document.getElementById('progress');
 
   function fmt(s){
-    const m = Math.floor(s/60).toString().padStart(2,'0');
-    const ss = (s%60).toString().padStart(2,'0');
+    const m = Math.floor(s/60).toString().padSrt(2,'0');
+    const ss = (s%60).toString().padSrt(2,'0');
     return m + ':' + ss;
   }
   function tick(){
@@ -321,10 +321,10 @@ TEST_HTML = (
   });
   function updateProgress(){
     let answered = 0;
-    for (let i=1; i<=total; i++) {
+    for (let i=1; i<=tol; i++) {
       if (document.querySelector('input[name="q'+i+'"]:checked')) answered++;
     }
-    progress.textContent = answered + ' / ' + total + ' javob berildi';
+    progress.textContent = answered + ' / ' + tol + ' javob berildi';
   }
 
   let submitting = false;
@@ -332,24 +332,24 @@ TEST_HTML = (
     if (submitting) return;
     if (!forced) {
       let answered = 0;
-      for (let i=1; i<=total; i++) {
+      for (let i=1; i<=tol; i++) {
         if (document.querySelector('input[name="q'+i+'"]:checked')) answered++;
       }
-      if (answered < total) {
-        if (!confirm((total-answered) + ' ta savolga javob bermadingiz. Topshirilsinmi?')) return;
+      if (answered < tol) {
+        if (!confirm((tol-answered) + '  savolga javob bermadingiz. Topshirilsinmi?')) return;
       }
     }
     submitting = true;
     clearInterval(interval);
     const answers = {};
-    for (let i=1; i<=total; i++) {
+    for (let i=1; i<=tol; i++) {
       const v = document.querySelector('input[name="q'+i+'"]:checked');
       if (v) answers[i] = v.value;
     }
     const payload = {
       test_id: "{{test_id}}",
       answers: answers,
-      init_data: (tg && tg.initData) || ""
+      init_da: (tg && tg.initDa) || ""
     };
     try {
       const resp = await fetch('/api/submit', {
@@ -357,9 +357,9 @@ TEST_HTML = (
         headers: {'Content-Type':'application/json'},
         body: JSON.stringify(payload)
       });
-      const data = await resp.json();
-      if (data.redirect) { window.location.href = data.redirect; }
-      else { alert(data.error || 'Xato'); submitting = false; }
+      const da = await resp.json();
+      if (da.redirect) { window.location.href = da.redirect; }
+      else { alert(da.error || 'خطأ'); submitting = false; }
     } catch(e) {
       alert('Tarmoq xatosi: ' + e);
       submitting = false;
@@ -373,27 +373,27 @@ TEST_HTML = (
 
 RESULT_HTML = (
     _BASE_HEAD.replace("{{title}}", "Test natijasi")
-    + """<div class="container py-4" style="max-width: 600px;">
+    + """<div class="coniner py-4" style="max-width: 600px;">
 <div class="card">
   <div class="card-header bg-white">
     <h5 class="mb-0">Test natijasi</h5>
   </div>
   <div class="card-body p-0">
-    <table class="table mb-0 result-table">
+    <ble class="ble mb-0 result-ble">
       <tbody>
         <tr><th>Talaba</th><td>{{full_name}}</td></tr>
         <tr><th>Fanlar</th><td>{{subject}}</td></tr>
         <tr><th>Topshiriq nomi</th><td>YAKUNIY TEST</td></tr>
         <tr><th>Urinishlar</th><td>{{attempts_count}}</td></tr>
-        <tr><th>Savollar soni</th><td>{{total}}</td></tr>
+        <tr><th>السؤالlar soni</th><td>{{tol}}</td></tr>
         <tr><th>Ball</th><td>{{ball}}</td></tr>
         <tr><th>Natija</th><td><strong>{{correct}} / {{pct}}%</strong></td></tr>
       </tbody>
-    </table>
+    </ble>
   </div>
   <div class="card-footer bg-white d-flex justify-content-between">
-    <a href="/" class="btn btn-outline-secondary">‹ Topshiriqlar ro'yxatiga qaytish</a>
-    <a href="/test/{{stem}}" class="btn btn-primary">Qayta topshirish</a>
+    <a href="/" class="btn btn-outline-secondary">‹ قائمة الاختباراتga qaytish</a>
+    <a href="/test/{{stem}}" class="btn btn-primary">Qay topshirish</a>
   </div>
 </div>
 </div>
