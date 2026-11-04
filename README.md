@@ -23,15 +23,24 @@ Git & GitHub
 
         cyber-quiz-bot/
 ├── bot.py
+
 ├── handlers.py
+
 ├── database.py
+
 ├── parser.py
+
 ├── config.py
+
 ├── translations.py
+
 ├── subjects/
-│   └── network_administration_security.txt
+
+├── network_administration_security.txt
+
 ├── README.md
-└── requirements.txt
+
+├── requirements.txt
 
   Installation & Steup clone the Repository
  
